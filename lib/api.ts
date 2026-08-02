@@ -650,3 +650,38 @@ export async function createApiKey(name: string): Promise<ApiKeyCreateResponse> 
 export async function revokeApiKey(keyId: string): Promise<void> {
   await api.delete(`/settings/api-keys/${keyId}`);
 }
+
+export interface ReportStats {
+  total_projects: number;
+  total_bids: number;
+  bids_won: number;
+  bids_lost: number;
+  win_rate: number;
+  total_bid_value: number;
+  avg_bid_value: number;
+  total_time_saved_hours: number;
+  open_violations: number;
+  resolved_violations: number;
+  total_rfis: number;
+  closed_rfis: number;
+  monthly_data: Array<{
+    month: string;
+    bids_created: number;
+    bids_won: number;
+    violations_found: number;
+    violations_resolved: number;
+    time_saved_hours: number;
+  }>;
+  top_projects: Array<{
+    id: string;
+    name: string;
+    bid_count: number;
+    win_rate: number;
+    total_value: number;
+  }>;
+}
+
+export async function fetchReportStats(): Promise<ReportStats> {
+  const { data } = await api.get<ReportStats>("/reports/stats");
+  return data;
+}

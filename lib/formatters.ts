@@ -4,6 +4,14 @@ const currencyFormatter = new Intl.NumberFormat("en-US", {
   maximumFractionDigits: 0,
 });
 
+const numberFormatter = new Intl.NumberFormat("en-US", {
+  maximumFractionDigits: 0,
+});
+
+export function formatNumber(value: number): string {
+  return numberFormatter.format(value);
+}
+
 export function formatCurrency(value: number, currency = "USD"): string {
   if (currency === "USD") {
     return currencyFormatter.format(value);

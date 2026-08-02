@@ -15,6 +15,7 @@ import {
   fetchOrganization,
   fetchProfile,
   fetchProjects,
+  fetchReportStats,
   fetchRFIs,
   fetchViolations,
   inviteMember,
@@ -333,5 +334,12 @@ export function useRevokeApiKey() {
     onSuccess: () => {
       void queryClient.invalidateQueries({ queryKey: ["settings", "api-keys"] });
     },
+  });
+}
+
+export function useReportStats() {
+  return useQuery({
+    queryKey: ["reports", "stats"],
+    queryFn: fetchReportStats,
   });
 }
