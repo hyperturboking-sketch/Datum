@@ -12,6 +12,8 @@ const statusStyles: Record<ProjectStatus, string> = {
     "bg-[#1A1A1A] text-[#A3A3A3] border border-[rgba(255,255,255,0.08)]",
   on_hold:
     "bg-[#1A1A1A] text-[#A3A3A3] border border-[rgba(255,255,255,0.08)]",
+  archived:
+    "bg-[#1A1A1A] text-[#A3A3A3] border border-[rgba(255,255,255,0.08)]",
 };
 
 export function ProjectRow({ project }: { project: Project }) {

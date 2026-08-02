@@ -37,6 +37,12 @@ export function formatRelativeTime(iso: string): string {
   });
 }
 
+export function formatDate(iso: string): string {
+  const date = new Date(iso);
+  if (Number.isNaN(date.getTime())) return "";
+  return fullDateFormatter.format(date);
+}
+
 export function formatUpdatedDate(iso: string): string {
   const date = new Date(iso);
   if (Number.isNaN(date.getTime())) return "";
@@ -55,32 +61,38 @@ export function getInitials(name: string): string {
   return (first + last).toUpperCase();
 }
 
-export function formatDate(iso: string): string {
-  const date = new Date(iso);
-  if (Number.isNaN(date.getTime())) return "";
-  return date.toLocaleDateString("en-US", {
-    month: "short",
-    day: "numeric",
-    year: "numeric",
-  });
+const shortDateFormatter = new Intl.DateTimeFormat("en-US", {
+  month: "short",
+  day: "numeric",
+});
+
+const fullDateFormatter = new Intl.DateTimeFormat("en-US", {
+  month: "short",
+  day: "numeric",
+  year: "numeric",
+});
+
+function parseDate(value: string | null): Date | null {
+  if (!value) return null;
+  const date = new Date(`${value}T00:00:00`);
+  return Number.isNaN(date.getTime()) ? null : date;
 }
 
-export function formatDateRange(startIso: string | null, endIso: string | null): string {
-  if (!startIso && !endIso) return "Not set";
-  const start = startIso ? new Date(startIso) : null;
-  const end = endIso ? new Date(endIso) : null;
-  
-  if (start && Number.isNaN(start.getTime())) return "Not set";
-  if (end && Number.isNaN(end.getTime())) return "Not set";
-  
+export function formatDateRange(
+  startDate: string | null,
+  endDate: string | null
+): string {
+  const start = parseDate(startDate);
+  const end = parseDate(endDate);
+
   if (start && end) {
-    return `${start.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })} - ${end.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}`;
+    return `${shortDateFormatter.format(start)} — ${fullDateFormatter.format(end)}`;
   }
   if (start) {
-    return `From ${start.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}`;
+    return `Started ${fullDateFormatter.format(start)}`;
   }
   if (end) {
-    return `Until ${end.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}`;
+    return `Ends ${fullDateFormatter.format(end)}`;
   }
-  return "Not set";
+  return "—";
 }
