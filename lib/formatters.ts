@@ -54,3 +54,33 @@ export function getInitials(name: string): string {
   const last = parts.length > 1 ? (parts[parts.length - 1]?.[0] ?? "") : "";
   return (first + last).toUpperCase();
 }
+
+export function formatDate(iso: string): string {
+  const date = new Date(iso);
+  if (Number.isNaN(date.getTime())) return "";
+  return date.toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  });
+}
+
+export function formatDateRange(startIso: string | null, endIso: string | null): string {
+  if (!startIso && !endIso) return "Not set";
+  const start = startIso ? new Date(startIso) : null;
+  const end = endIso ? new Date(endIso) : null;
+  
+  if (start && Number.isNaN(start.getTime())) return "Not set";
+  if (end && Number.isNaN(end.getTime())) return "Not set";
+  
+  if (start && end) {
+    return `${start.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })} - ${end.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}`;
+  }
+  if (start) {
+    return `From ${start.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}`;
+  }
+  if (end) {
+    return `Until ${end.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}`;
+  }
+  return "Not set";
+}
