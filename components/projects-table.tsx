@@ -114,10 +114,10 @@ export function ProjectsTable({
     return (
       <div className="flex flex-col items-center justify-center rounded-lg border border-[#334155] bg-[#0D1117] px-6 py-16">
         <FolderOpen size={32} strokeWidth={1.5} className="text-[#334155]" />
-        <p className="mt-3 text-[14px] text-[#94A3B8]">
+        <p className="font-description mt-3 text-[14px] text-[#94A3B8]">
           Failed to load projects
         </p>
-        <p className="mt-1 text-[13px] text-[#64748B]">
+        <p className="font-description mt-1 text-[13px] text-[#64748B]">
           Check your connection and try again.
         </p>
         <Button
@@ -135,12 +135,12 @@ export function ProjectsTable({
     return (
       <div className="flex flex-col items-center justify-center rounded-lg border border-[#334155] bg-[#0D1117] px-6 py-16">
         <FolderOpen size={32} strokeWidth={1.5} className="text-[#334155]" />
-        <p className="mt-3 text-[14px] text-[#94A3B8]">
+        <p className="font-description mt-3 text-[14px] text-[#94A3B8]">
           {hasActiveFilters
             ? "No projects match your search"
             : "No projects found"}
         </p>
-        <p className="mt-1 text-[13px] text-[#64748B]">
+        <p className="font-description mt-1 text-[13px] text-[#64748B]">
           {hasActiveFilters
             ? "Try adjusting your filters or clearing them."
             : "Create your first project to get started"}
@@ -209,7 +209,7 @@ export function ProjectsTable({
                     {project.name}
                   </span>
                   {project.location && (
-                    <span className="mt-0.5 block truncate text-[11px] text-[#64748B]">
+                    <span className="font-description mt-0.5 block truncate text-[11px] text-[#64748B]">
                       {project.location}
                     </span>
                   )}

@@ -63,10 +63,7 @@ function Logo({ collapsed }: { collapsed: boolean }) {
   return (
     <div className="flex items-center gap-2.5 px-6 py-5">
       <LogoMark className="size-6 shrink-0 text-[#E5E5E5]" />
-      <span
-        className="font-serif text-[25px] font-extralight leading-none tracking-tight text-[#E5E5E5]"
-        style={{ fontStretch: "80%" }}
-      >
+      <span className="font-serif text-[25px] font-normal leading-none tracking-tight text-[#E5E5E5]">
         datum
       </span>
     </div>

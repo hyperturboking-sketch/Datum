@@ -22,7 +22,7 @@ export function ActionCard({
         {icon}
       </div>
       <p className="text-[14px] font-medium text-[#E5E5E5]">{title}</p>
-      <p className="mt-1 text-[13px] leading-normal text-[#737373]">{description}</p>
+      <p className="font-description mt-1 text-[13px] leading-normal text-[#737373]">{description}</p>
     </Link>
   );
 }

@@ -213,7 +213,7 @@ export function IfcParseResults({
     return (
       <div className="flex items-center gap-2 rounded-lg border border-[#B57373]/30 bg-[#B57373]/10 px-4 py-3 text-[#B57373]">
         <WarningAmberIcon style={{ fontSize: 16 }} />
-        <p className="text-sm">This file could not be parsed. No results are available.</p>
+        <p className="font-description text-sm">This file could not be parsed. No results are available.</p>
       </div>
     );
   }

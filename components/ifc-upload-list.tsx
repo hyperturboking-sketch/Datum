@@ -187,7 +187,7 @@ export function IfcUploadList({ projectId }: { projectId: string | null }) {
               <InboxIcon style={{ fontSize: 16 }} className="text-[#525252]" />
             </div>
             <p className="text-sm font-medium text-[#737373]">No uploads yet</p>
-            <p className="text-xs text-[#525252]">Upload an IFC file to get started.</p>
+            <p className="font-description text-xs text-[#525252]">Upload an IFC file to get started.</p>
           </div>
         ) : (
           rows.map((upload) => (

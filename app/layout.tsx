@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Noto_Serif_Display } from "next/font/google";
+import { Inter, Open_Sans, PT_Serif_Caption } from "next/font/google";
 import "./globals.css";
 import { Providers } from "@/lib/providers";
 import { AuthProvider } from "@/lib/auth";
@@ -11,9 +11,15 @@ const inter = Inter({
   variable: "--font-sans",
 });
 
-const notoSerif = Noto_Serif_Display({
+const openSans = Open_Sans({
   subsets: ["latin"],
-  axes: ["wdth"],
+  weight: ["400", "500"],
+  variable: "--font-description",
+});
+
+const ptSerifCaption = PT_Serif_Caption({
+  subsets: ["latin"],
+  weight: "400",
   variable: "--font-serif",
 });
 
@@ -30,7 +36,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${notoSerif.variable}`}
+      className={`${inter.variable} ${openSans.variable} ${ptSerifCaption.variable}`}
     >
       <body className={`font-sans antialiased`}>
         <TooltipProvider>

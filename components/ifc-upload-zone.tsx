@@ -201,9 +201,9 @@ export default function IfcUploadZone({ onUploadComplete }: IfcUploadZoneProps) 
         {state === "idle" && (
           <>
             <UploadCloud className="w-8 h-8 text-[#64748B] mx-auto mb-3" />
-            <p className="text-[14px] text-[#94A3B8]">Drop IFC file here</p>
-            <p className="text-[13px] text-[#475569]">or click to browse</p>
-            <p className="text-[11px] text-[#475569] mt-2">Supports .ifc up to 200MB</p>
+            <p className="font-description text-[14px] text-[#94A3B8]">Drop IFC file here</p>
+            <p className="font-description text-[13px] text-[#475569]">or click to browse</p>
+            <p className="font-description text-[11px] text-[#475569] mt-2">Supports .ifc up to 200MB</p>
           </>
         )}
 
@@ -228,7 +228,7 @@ export default function IfcUploadZone({ onUploadComplete }: IfcUploadZoneProps) 
           <>
             <Loader2 className="w-5 h-5 text-[#00D4AA] animate-spin mx-auto mb-3" />
             <p className="text-[14px] text-[#F8FAFC]">Parsing building model...</p>
-            <p className="text-[12px] text-[#64748B] mt-1">Extracting walls, floors, columns, and quantities</p>
+            <p className="font-description text-[12px] text-[#64748B] mt-1">Extracting walls, floors, columns, and quantities</p>
           </>
         )}
 
@@ -320,7 +320,7 @@ export default function IfcUploadZone({ onUploadComplete }: IfcUploadZoneProps) 
         <h3 className="text-[15px] font-medium text-[#F8FAFC] mb-3">Uploaded Models</h3>
         
         {uploadedModels.length === 0 ? (
-          <p className="text-[13px] text-[#64748B]">No models uploaded yet.</p>
+          <p className="font-description text-[13px] text-[#64748B]">No models uploaded yet.</p>
         ) : (
           <div className="space-y-2">
             {uploadedModels.map((model) => (

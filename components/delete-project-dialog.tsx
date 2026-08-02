@@ -52,7 +52,7 @@ export function DeleteProjectDialog({
             Delete Project
           </DialogTitle>
         </DialogHeader>
-        <DialogDescription className="px-6 py-4 text-[13px] text-[#94A3B8]">
+        <DialogDescription className="font-description px-6 py-4 text-[13px] text-[#94A3B8]">
           Are you sure? This will permanently delete{" "}
           <span className="font-medium text-[#F8FAFC]">{project?.name}</span>{" "}
           and all associated bids, drawings, and reports.

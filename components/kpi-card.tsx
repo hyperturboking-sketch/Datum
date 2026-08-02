@@ -25,13 +25,13 @@ export function KpiCard({
         {label}
       </p>
       {hasError || value === null ? (
-        <p className="mt-3 text-[13px] text-[#B57373]">Failed to load stats</p>
+        <p className="font-description mt-3 text-[13px] text-[#B57373]">Failed to load stats</p>
       ) : (
         <>
           <p className="mt-3 text-[32px] font-semibold leading-none tracking-tight text-[#E5E5E5] tabular-nums">
             {value}
           </p>
-          <p className="mt-2 text-[13px] text-[#737373]">{sub}</p>
+          <p className="font-description mt-2 text-[13px] text-[#737373]">{sub}</p>
         </>
       )}
     </div>

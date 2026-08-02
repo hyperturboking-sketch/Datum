@@ -6,10 +6,14 @@ import {
   createProject,
   deleteBid,
   deleteProject,
+  fetchBidDetail,
   fetchBids,
   fetchProjects,
+  updateBidStatus,
   type ActivityListResponse,
+  type Bid,
   type BidFilters,
+  type BidStatus,
   type CreateProjectInput,
   type DashboardStats,
   type ProjectFilters,
@@ -110,6 +114,26 @@ export function useDeleteBid() {
     mutationFn: (bidId: string) => deleteBid(bidId),
     onSuccess: () => {
       void queryClient.invalidateQueries({ queryKey: ["bids"] });
+    },
+  });
+}
+
+export function useBidDetail(bidId: string) {
+  return useQuery({
+    queryKey: ["bid", bidId],
+    queryFn: () => fetchBidDetail(bidId),
+    enabled: !!bidId,
+  });
+}
+
+export function useUpdateBidStatus() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({ id, status }: { id: string; status: BidStatus }) =>
+      updateBidStatus(id, status),
+    onSuccess: (bid: Bid) => {
+      void queryClient.invalidateQueries({ queryKey: ["bids"] });
+      void queryClient.setQueryData(["bid", bid.id], bid);
     },
   });
 }

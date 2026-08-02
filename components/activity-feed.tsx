@@ -34,7 +34,7 @@ export function ActivityFeed() {
 
   if (isError) {
     return (
-      <div className="overflow-hidden rounded-lg border border-[rgba(255,255,255,0.12)] bg-[#18181b] px-4 py-3 text-[13px] text-[#B57373]">
+      <div className="font-description overflow-hidden rounded-lg border border-[rgba(255,255,255,0.12)] bg-[#18181b] px-4 py-3 text-[13px] text-[#B57373]">
         Failed to load activity.
       </div>
     );
@@ -44,7 +44,7 @@ export function ActivityFeed() {
 
   if (activities.length === 0) {
     return (
-      <div className="overflow-hidden rounded-lg border border-[rgba(255,255,255,0.12)] bg-[#18181b] px-4 py-6 text-center text-[13px] text-[#737373]">
+      <div className="font-description overflow-hidden rounded-lg border border-[rgba(255,255,255,0.12)] bg-[#18181b] px-4 py-6 text-center text-[13px] text-[#737373]">
         No recent activity.
       </div>
     );
@@ -65,7 +65,7 @@ export function ActivityFeed() {
                 <Icon style={{ fontSize: 15 }} />
               </span>
               <div className="min-w-0">
-                <p className="truncate text-[13px] text-[#E5E5E5]">
+                <p className="font-description truncate text-[13px] text-[#E5E5E5]">
                   {activity.description}
                   {activity.project_name && (
                     <span className="text-[#737373]"> · {activity.project_name}</span>

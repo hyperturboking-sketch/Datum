@@ -24,7 +24,7 @@ export default async function DrawingsPage({
         <h1 className="text-[24px] font-semibold tracking-tight text-[#E5E5E5]">
           Drawings
         </h1>
-        <p className="mt-1 text-[14px] text-[#737373]">
+        <p className="font-description mt-1 text-[14px] text-[#737373]">
           Upload IFC building models to extract structural quantities.
         </p>
       </header>

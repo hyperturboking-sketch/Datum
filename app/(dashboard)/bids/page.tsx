@@ -125,7 +125,7 @@ export default function BidsPage() {
         <div className="mb-6 flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
           <div>
             <h1 className="text-[24px] font-medium text-[#F8FAFC]">Bids</h1>
-            <p className="mt-1 text-[13px] text-[#94A3B8]">
+            <p className="font-description mt-1 text-[13px] text-[#94A3B8]">
               Cost proposals and bid estimates
             </p>
           </div>

@@ -96,7 +96,7 @@ export default function ProjectsPage() {
         <div className="mb-6 flex flex-col justify-between gap-4 sm:flex-row sm:items-start">
           <div>
             <h1 className="text-[24px] font-medium text-[#F8FAFC]">Projects</h1>
-            <p className="mt-1 text-[13px] text-[#94A3B8]">
+            <p className="font-description mt-1 text-[13px] text-[#94A3B8]">
               Manage your AEC projects and workflows
             </p>
           </div>

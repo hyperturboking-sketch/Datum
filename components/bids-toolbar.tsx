@@ -203,7 +203,7 @@ export function BidsToolbar({
       </div>
 
       <div className="flex items-center gap-3">
-        <span className="text-[12px] text-[#475569] tabular-nums">
+        <span className="font-description text-[12px] text-[#475569] tabular-nums">
           Showing {firstShown} — {lastShown} of {total}
         </span>
         <div className="flex items-center gap-2">

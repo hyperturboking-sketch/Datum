@@ -270,6 +270,30 @@ export type BidSortBy =
   | "bid_name";
 export type BidSortOrder = "asc" | "desc";
 
+export interface BidSummary {
+  subtotal: number;
+  overhead: number;
+  overhead_pct: number;
+  profit: number;
+  profit_pct: number;
+  contingency: number;
+  contingency_pct: number;
+  grand_total: number;
+}
+
+export interface BidLineItem {
+  id: string;
+  category: string;
+  description: string;
+  quantity: number;
+  unit: string;
+  material_unit_cost: number;
+  labor_unit_cost: number;
+  equipment_unit_cost: number;
+  total_cost: number;
+  notes: string | null;
+}
+
 export interface Bid {
   id: string;
   project_id: string;
@@ -284,6 +308,10 @@ export interface Bid {
   created_by_name: string;
   created_at: string;
   updated_at: string;
+  summary: BidSummary;
+  assumptions: string[];
+  exclusions: string[];
+  line_items: BidLineItem[];
 }
 
 export interface BidFilters {
@@ -319,4 +347,17 @@ export async function fetchBids(filters: BidFilters): Promise<BidListResponse> {
 
 export async function deleteBid(bidId: string): Promise<void> {
   await api.delete(`/bids/${bidId}`);
+}
+
+export async function fetchBidDetail(bidId: string): Promise<Bid> {
+  const { data } = await api.get<Bid>(`/bids/${bidId}`);
+  return data;
+}
+
+export async function updateBidStatus(
+  bidId: string,
+  status: BidStatus
+): Promise<Bid> {
+  const { data } = await api.patch<Bid>(`/bids/${bidId}`, { status });
+  return data;
 }

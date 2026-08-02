@@ -197,7 +197,7 @@ export function ProjectsToolbar({
       </div>
 
       <div className="flex items-center gap-4">
-        <span className="text-[12px] text-[#475569] tabular-nums">
+        <span className="font-description text-[12px] text-[#475569] tabular-nums">
           Showing {firstShown}–{lastShown} of {total} projects
         </span>
         <div className="flex items-center gap-2">

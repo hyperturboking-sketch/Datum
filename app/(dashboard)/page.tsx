@@ -81,7 +81,7 @@ export default function DashboardPage() {
           <h1 className="text-[25px] font-semibold tracking-tight text-[#E5E5E5]">
             Dashboard
           </h1>
-          <p className="mt-1 text-[14px] text-[#737373]">
+          <p className="font-description mt-1 text-[14px] text-[#737373]">
             Overview of your AEC projects and workflows
           </p>
         </div>
@@ -151,7 +151,7 @@ export default function DashboardPage() {
             </div>
           ) : projectsError ? (
             <div className="flex items-center justify-between rounded-lg border border-[rgba(255,255,255,0.12)] bg-[#18181b] px-4 py-3">
-              <p className="text-[13px] text-[#B57373]">Failed to load projects.</p>
+              <p className="font-description text-[13px] text-[#B57373]">Failed to load projects.</p>
               <button
                 type="button"
                 onClick={() => void projects.refetch()}
@@ -162,7 +162,7 @@ export default function DashboardPage() {
             </div>
           ) : projectRows.length === 0 ? (
             <div className="flex flex-col items-center gap-2 rounded-lg border border-[rgba(255,255,255,0.12)] bg-[#18181b] px-4 py-12 text-center">
-              <p className="text-[13px] text-[#737373]">
+              <p className="font-description text-[13px] text-[#737373]">
                 No active projects. Create your first project to get started.
               </p>
               <Link

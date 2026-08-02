@@ -99,7 +99,7 @@ export function BidsTable({
     return (
       <div className="flex flex-col items-center justify-center rounded-lg border border-[#334155] bg-[#0D1117] px-6 py-16">
         <AlertTriangle size={24} strokeWidth={1.5} className="text-[#F87171]" />
-        <p className="mt-2 text-[14px] text-[#94A3B8]">Failed to load bids</p>
+        <p className="font-description mt-2 text-[14px] text-[#94A3B8]">Failed to load bids</p>
         <Button
           variant="outline"
           onClick={onRetry}
@@ -115,7 +115,7 @@ export function BidsTable({
     return (
       <div className="flex flex-col items-center justify-center rounded-lg border border-[#334155] bg-[#0D1117] px-6 py-16">
         <FileText size={32} strokeWidth={1.5} className="text-[#334155]" />
-        <p className="mt-3 text-[14px] text-[#94A3B8]">No bids found</p>
+        <p className="font-description mt-3 text-[14px] text-[#94A3B8]">No bids found</p>
         {hasActiveFilters ? (
           <Button
             variant="outline"
@@ -126,7 +126,7 @@ export function BidsTable({
           </Button>
         ) : (
           <>
-            <p className="mt-1 text-[13px] text-[#64748B]">
+            <p className="font-description mt-1 text-[13px] text-[#64748B]">
               Create your first bid from a project
             </p>
             <Link

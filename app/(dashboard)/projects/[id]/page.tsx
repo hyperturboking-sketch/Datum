@@ -181,9 +181,9 @@ function DrawingsTab({ drawings, isLoading }: { drawings: Drawing[]; isLoading: 
         className="border-2 border-dashed border-[#334155] rounded-lg bg-[#111827] hover:bg-[#1E293B] hover:border-[#475569] transition-colors py-12 text-center cursor-pointer"
       >
         <UploadCloudIcon style={{ fontSize: 32 }} className="text-[#64748B] mb-3 mx-auto" />
-        <p className="text-[14px] text-[#94A3B8]">Drop IFC file here</p>
-        <p className="text-[13px] text-[#475569]">or click to browse</p>
-        <p className="text-[11px] text-[#475569] mt-2">Supports .ifc up to 200MB</p>
+        <p className="font-description text-[14px] text-[#94A3B8]">Drop IFC file here</p>
+        <p className="font-description text-[13px] text-[#475569]">or click to browse</p>
+        <p className="font-description text-[11px] text-[#475569] mt-2">Supports .ifc up to 200MB</p>
         <input
           ref={fileInputRef}
           type="file"
@@ -202,7 +202,7 @@ function DrawingsTab({ drawings, isLoading }: { drawings: Drawing[]; isLoading: 
             <DrawingRowSkeleton />
           </>
         ) : drawings.length === 0 ? (
-          <p className="text-[13px] text-[#64748B]">No models uploaded yet.</p>
+          <p className="font-description text-[13px] text-[#64748B]">No models uploaded yet.</p>
         ) : (
           <div>
             {drawings.map((drawing) => (
@@ -246,7 +246,7 @@ function BidsTab({ bids, isLoading }: { bids: Bid[]; isLoading: boolean }) {
         </div>
       ) : bids.length === 0 ? (
         <div className="flex items-center gap-4">
-          <p className="text-[13px] text-[#64748B]">No bids created yet.</p>
+          <p className="font-description text-[13px] text-[#64748B]">No bids created yet.</p>
           <button className="h-8 px-3 bg-[#00D4AA] rounded-md text-[13px] font-medium text-[#0D1117] hover:bg-[#00C49B]">
             Create New Bid
           </button>
@@ -288,7 +288,7 @@ function ComplianceTab({ violations, isLoading }: { violations: Violation[]; isL
           <div className="h-11 bg-[#1E293B] rounded animate-pulse" />
         </div>
       ) : violations.length === 0 ? (
-        <p className="text-[13px] text-[#64748B]">No violations detected.</p>
+        <p className="font-description text-[13px] text-[#64748B]">No violations detected.</p>
       ) : (
         <div>
           {violations.map((violation) => (
@@ -325,7 +325,7 @@ function RFIsTab({ rfis, isLoading }: { rfis: RFI[]; isLoading: boolean }) {
           <div className="h-11 bg-[#1E293B] rounded animate-pulse" />
         </div>
       ) : rfis.length === 0 ? (
-        <p className="text-[13px] text-[#64748B]">No RFIs drafted yet.</p>
+        <p className="font-description text-[13px] text-[#64748B]">No RFIs drafted yet.</p>
       ) : (
         <div>
           {rfis.map((rfi) => (
@@ -357,7 +357,7 @@ function SustainabilityTab() {
   return (
     <div>
       <h3 className="text-[15px] font-medium text-[#F8FAFC] mb-4">Sustainability</h3>
-      <p className="text-[13px] text-[#64748B]">ESG and LCA reports will appear here.</p>
+      <p className="font-description text-[13px] text-[#64748B]">ESG and LCA reports will appear here.</p>
     </div>
   );
 }
@@ -389,7 +389,7 @@ export default function ProjectDetailPage() {
       <div className="min-h-screen bg-[#0D1117] flex items-center justify-center">
         <div className="text-center">
           <AlertTriangleIcon style={{ fontSize: 24 }} className="text-[#EF4444] mx-auto mb-3" />
-          <p className="text-[14px] text-[#94A3B8] mb-4">Failed to load project</p>
+          <p className="font-description text-[14px] text-[#94A3B8] mb-4">Failed to load project</p>
           <button
             onClick={refetch}
             className="h-8 px-3 bg-transparent border border-[#334155] rounded-md text-[13px] text-[#94A3B8] hover:text-[#F8FAFC] hover:border-[#475569]"
@@ -420,11 +420,11 @@ export default function ProjectDetailPage() {
         <div className="flex justify-between items-start mb-6">
           <div>
             <h1 className="text-[24px] font-medium text-[#F8FAFC]">{project.name}</h1>
-            <p className="text-[13px] text-[#94A3B8] mt-1">{project.client_name}</p>
+            <p className="font-description text-[13px] text-[#94A3B8] mt-1">{project.client_name}</p>
             {project.location && (
               <div className="flex items-center mt-1">
                 <MapPinIcon style={{ fontSize: 12 }} className="text-[#64748B] mr-1" />
-                <span className="text-[12px] text-[#64748B]">{project.location}</span>
+                <span className="font-description text-[12px] text-[#64748B]">{project.location}</span>
               </div>
             )}
           </div>
@@ -460,7 +460,7 @@ export default function ProjectDetailPage() {
           <div className="bg-[#111827] border border-[#1E293B] rounded-lg p-4">
             <p className="text-[12px] text-[#94A3B8]">Bids</p>
             <p className="text-[20px] font-medium text-[#F8FAFC]">{bidsCount}</p>
-            <p className="text-[12px] text-[#64748B]">{bidsCount} submitted</p>
+            <p className="font-description text-[12px] text-[#64748B]">{bidsCount} submitted</p>
           </div>
         </div>
 
