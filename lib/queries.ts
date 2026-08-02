@@ -3,18 +3,27 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   api,
+  createApiKey,
   createProject,
   createRFI,
   deleteBid,
   deleteProject,
   deleteRFI,
+  fetchApiKeys,
   fetchBidDetail,
   fetchBids,
+  fetchOrganization,
+  fetchProfile,
   fetchProjects,
   fetchRFIs,
   fetchViolations,
+  inviteMember,
+  removeMember,
   resolveViolation,
+  revokeApiKey,
   updateBidStatus,
+  updateOrganization,
+  updateProfile,
   updateRFI,
   updateRFIStatus,
   type ActivityListResponse,
@@ -24,12 +33,15 @@ import {
   type CreateProjectInput,
   type CreateRfiInput,
   type DashboardStats,
+  type Organization,
   type ProjectFilters,
   type ProjectListResponse,
   type Rfi,
   type RfiFilters,
   type RfiStatus,
   type UpdateRfiInput,
+  type UserProfile,
+  type UserRole,
   type Violation,
   type ViolationFilters,
 } from "@/lib/api";
@@ -238,6 +250,88 @@ export function useUpdateRFI() {
     onSuccess: (rfi: Rfi) => {
       void queryClient.invalidateQueries({ queryKey: ["rfis"] });
       void queryClient.setQueryData(["rfi", rfi.id], rfi);
+    },
+  });
+}
+
+export function useProfile() {
+  return useQuery({
+    queryKey: ["settings", "profile"],
+    queryFn: fetchProfile,
+  });
+}
+
+export function useOrganization() {
+  return useQuery({
+    queryKey: ["settings", "org"],
+    queryFn: fetchOrganization,
+  });
+}
+
+export function useApiKeys() {
+  return useQuery({
+    queryKey: ["settings", "api-keys"],
+    queryFn: fetchApiKeys,
+  });
+}
+
+export function useUpdateProfile() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (input: Partial<UserProfile>) => updateProfile(input),
+    onSuccess: (profile: UserProfile) => {
+      void queryClient.setQueryData(["settings", "profile"], profile);
+    },
+  });
+}
+
+export function useUpdateOrganization() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (input: Partial<Organization>) => updateOrganization(input),
+    onSuccess: () => {
+      void queryClient.invalidateQueries({ queryKey: ["settings", "org"] });
+    },
+  });
+}
+
+export function useInviteMember() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (input: { email: string; role: UserRole }) =>
+      inviteMember(input),
+    onSuccess: () => {
+      void queryClient.invalidateQueries({ queryKey: ["settings", "org"] });
+    },
+  });
+}
+
+export function useRemoveMember() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (memberId: string) => removeMember(memberId),
+    onSuccess: () => {
+      void queryClient.invalidateQueries({ queryKey: ["settings", "org"] });
+    },
+  });
+}
+
+export function useCreateApiKey() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (name: string) => createApiKey(name),
+    onSuccess: () => {
+      void queryClient.invalidateQueries({ queryKey: ["settings", "api-keys"] });
+    },
+  });
+}
+
+export function useRevokeApiKey() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (keyId: string) => revokeApiKey(keyId),
+    onSuccess: () => {
+      void queryClient.invalidateQueries({ queryKey: ["settings", "api-keys"] });
     },
   });
 }

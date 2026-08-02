@@ -73,6 +73,16 @@ const variantStyles: Record<string, Record<string, string>> = {
     responded: blue,
     closed: green,
   },
+  role: {
+    admin: indigo,
+    editor: blue,
+    viewer: slate,
+  },
+  plan: {
+    free: slate,
+    pro: indigo,
+    enterprise: success,
+  },
 };
 
 const variantLabels: Record<string, Record<string, string>> = {
@@ -106,9 +116,19 @@ const variantLabels: Record<string, Record<string, string>> = {
     responded: "Responded",
     closed: "Closed",
   },
+  role: {
+    admin: "Admin",
+    editor: "Editor",
+    viewer: "Viewer",
+  },
+  plan: {
+    free: "Free",
+    pro: "Pro",
+    enterprise: "Enterprise",
+  },
 };
 
-type StatusVariant = "project" | "parse" | "bid" | "violation" | "rfi";
+type StatusVariant = "project" | "parse" | "bid" | "violation" | "rfi" | "role" | "plan";
 
 export function StatusBadge({
   status,

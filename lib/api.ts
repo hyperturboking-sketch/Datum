@@ -544,3 +544,109 @@ export async function updateRFI(
   const { data } = await api.patch<Rfi>(`/rfis/${rfiId}`, input);
   return data;
 }
+
+export type UserRole = "admin" | "editor" | "viewer";
+
+export type PlanType = "free" | "pro" | "enterprise";
+
+export interface UserProfile {
+  id: string;
+  name: string;
+  email: string;
+  avatar_url: string | null;
+  role: UserRole;
+  created_at: string;
+}
+
+export interface Organization {
+  id: string;
+  name: string;
+  slug: string;
+  plan: PlanType;
+  seat_count: number;
+  seat_limit: number;
+  billing_email: string;
+}
+
+export interface OrgMember {
+  id: string;
+  name: string;
+  email: string;
+  role: UserRole;
+  avatar_url: string | null;
+  joined_at: string;
+}
+
+export interface ApiKey {
+  id: string;
+  name: string;
+  prefix: string;
+  created_at: string;
+  last_used_at: string | null;
+}
+
+export interface OrganizationResponse {
+  org: Organization;
+  members: OrgMember[];
+}
+
+export interface ApiKeyListResponse {
+  api_keys: ApiKey[];
+}
+
+export interface ApiKeyCreateResponse {
+  key: ApiKey;
+  full_key: string;
+}
+
+export async function fetchProfile(): Promise<UserProfile> {
+  const { data } = await api.get<UserProfile>("/settings/profile");
+  return data;
+}
+
+export async function updateProfile(
+  input: Partial<UserProfile>
+): Promise<UserProfile> {
+  const { data } = await api.patch<UserProfile>("/settings/profile", input);
+  return data;
+}
+
+export async function fetchOrganization(): Promise<OrganizationResponse> {
+  const { data } = await api.get<OrganizationResponse>("/settings/org");
+  return data;
+}
+
+export async function updateOrganization(
+  input: Partial<Organization>
+): Promise<Organization> {
+  const { data } = await api.patch<Organization>("/settings/org", input);
+  return data;
+}
+
+export async function inviteMember(input: {
+  email: string;
+  role: UserRole;
+}): Promise<OrgMember> {
+  const { data } = await api.post<OrgMember>("/settings/members", input);
+  return data;
+}
+
+export async function removeMember(memberId: string): Promise<void> {
+  await api.delete(`/settings/members/${memberId}`);
+}
+
+export async function fetchApiKeys(): Promise<ApiKeyListResponse> {
+  const { data } = await api.get<ApiKeyListResponse>("/settings/api-keys");
+  return data;
+}
+
+export async function createApiKey(name: string): Promise<ApiKeyCreateResponse> {
+  const { data } = await api.post<ApiKeyCreateResponse>("/settings/api-keys", {
+    name,
+  });
+  return data;
+}
+
+export async function revokeApiKey(keyId: string): Promise<void> {
+  await api.delete(`/settings/api-keys/${keyId}`);
+}
