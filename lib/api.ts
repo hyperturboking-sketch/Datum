@@ -441,3 +441,79 @@ export async function resolveViolation(
   });
   return data;
 }
+
+export type RfiStatus = "draft" | "sent" | "responded" | "closed";
+
+export type RfiPriority = "low" | "normal" | "high" | "urgent";
+
+export interface Rfi {
+  id: string;
+  project_id: string;
+  project_name: string;
+  rfi_number: string;
+  title: string;
+  description: string;
+  status: RfiStatus;
+  assigned_to_name: string | null;
+  assigned_to_email: string | null;
+  created_by_name: string;
+  priority: RfiPriority;
+  due_date: string | null;
+  response_text: string | null;
+  responded_at: string | null;
+  responded_by_name: string | null;
+  linked_violation_id: string | null;
+  linked_violation_code: string | null;
+  created_at: string;
+  updated_at: string;
+}
+
+export type RfiSortBy = "created_at" | "due_date" | "priority" | "status";
+export type RfiSortOrder = "asc" | "desc";
+
+export interface RfiFilters {
+  search: string;
+  statuses: RfiStatus[];
+  priorities: RfiPriority[];
+  sortBy: RfiSortBy;
+  sortOrder: RfiSortOrder;
+  limit: number;
+  offset: number;
+}
+
+export interface RfiListResponse {
+  rfis: Rfi[];
+  total: number;
+}
+
+export async function fetchRFIs(filters: RfiFilters): Promise<RfiListResponse> {
+  const params: Record<string, unknown> = {
+    limit: filters.limit,
+    offset: filters.offset,
+    sort_by: filters.sortBy,
+    sort_order: filters.sortOrder,
+  };
+  if (filters.search.trim()) {
+    params.search = filters.search.trim();
+  }
+  if (filters.statuses.length > 0) {
+    params.status = filters.statuses.join(",");
+  }
+  if (filters.priorities.length > 0) {
+    params.priority = filters.priorities.join(",");
+  }
+  const { data } = await api.get<RfiListResponse>("/rfis", { params });
+  return data;
+}
+
+export async function updateRFIStatus(
+  rfiId: string,
+  status: RfiStatus
+): Promise<Rfi> {
+  const { data } = await api.patch<Rfi>(`/rfis/${rfiId}`, { status });
+  return data;
+}
+
+export async function deleteRFI(rfiId: string): Promise<void> {
+  await api.delete(`/rfis/${rfiId}`);
+}

@@ -68,9 +68,9 @@ const variantStyles: Record<string, Record<string, string>> = {
     waived: slate,
   },
   rfi: {
-    draft: slate,
-    sent: blue,
-    responded: amber,
+    draft: amber,
+    sent: amber,
+    responded: blue,
     closed: green,
   },
 };

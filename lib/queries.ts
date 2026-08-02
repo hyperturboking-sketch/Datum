@@ -6,12 +6,15 @@ import {
   createProject,
   deleteBid,
   deleteProject,
+  deleteRFI,
   fetchBidDetail,
   fetchBids,
   fetchProjects,
+  fetchRFIs,
   fetchViolations,
   resolveViolation,
   updateBidStatus,
+  updateRFIStatus,
   type ActivityListResponse,
   type Bid,
   type BidFilters,
@@ -20,6 +23,9 @@ import {
   type DashboardStats,
   type ProjectFilters,
   type ProjectListResponse,
+  type Rfi,
+  type RfiFilters,
+  type RfiStatus,
   type Violation,
   type ViolationFilters,
 } from "@/lib/api";
@@ -167,6 +173,45 @@ export function useResolveViolation() {
     onSuccess: (violation: Violation) => {
       void queryClient.invalidateQueries({ queryKey: ["violations"] });
       void queryClient.setQueryData(["violation", violation.id], violation);
+    },
+  });
+}
+
+export function useRFIs(filters: RfiFilters) {
+  return useQuery({
+    queryKey: [
+      "rfis",
+      filters.search,
+      filters.statuses.join(","),
+      filters.priorities.join(","),
+      filters.sortBy,
+      filters.sortOrder,
+      filters.limit,
+      filters.offset,
+    ],
+    queryFn: () => fetchRFIs(filters),
+    placeholderData: (previous) => previous,
+  });
+}
+
+export function useUpdateRFIStatus() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({ id, status }: { id: string; status: RfiStatus }) =>
+      updateRFIStatus(id, status),
+    onSuccess: (rfi: Rfi) => {
+      void queryClient.invalidateQueries({ queryKey: ["rfis"] });
+      void queryClient.setQueryData(["rfi", rfi.id], rfi);
+    },
+  });
+}
+
+export function useDeleteRFI() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (rfiId: string) => deleteRFI(rfiId),
+    onSuccess: () => {
+      void queryClient.invalidateQueries({ queryKey: ["rfis"] });
     },
   });
 }
