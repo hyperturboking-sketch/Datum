@@ -4,6 +4,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   api,
   createProject,
+  createRFI,
   deleteBid,
   deleteProject,
   deleteRFI,
@@ -14,18 +15,21 @@ import {
   fetchViolations,
   resolveViolation,
   updateBidStatus,
+  updateRFI,
   updateRFIStatus,
   type ActivityListResponse,
   type Bid,
   type BidFilters,
   type BidStatus,
   type CreateProjectInput,
+  type CreateRfiInput,
   type DashboardStats,
   type ProjectFilters,
   type ProjectListResponse,
   type Rfi,
   type RfiFilters,
   type RfiStatus,
+  type UpdateRfiInput,
   type Violation,
   type ViolationFilters,
 } from "@/lib/api";
@@ -212,6 +216,28 @@ export function useDeleteRFI() {
     mutationFn: (rfiId: string) => deleteRFI(rfiId),
     onSuccess: () => {
       void queryClient.invalidateQueries({ queryKey: ["rfis"] });
+    },
+  });
+}
+
+export function useCreateRFI() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (input: CreateRfiInput) => createRFI(input),
+    onSuccess: () => {
+      void queryClient.invalidateQueries({ queryKey: ["rfis"] });
+    },
+  });
+}
+
+export function useUpdateRFI() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({ id, input }: { id: string; input: UpdateRfiInput }) =>
+      updateRFI(id, input),
+    onSuccess: (rfi: Rfi) => {
+      void queryClient.invalidateQueries({ queryKey: ["rfis"] });
+      void queryClient.setQueryData(["rfi", rfi.id], rfi);
     },
   });
 }

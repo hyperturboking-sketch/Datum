@@ -66,12 +66,16 @@ export function RfisTable({
   rfis,
   isLoading,
   onView,
+  onNew,
+  onEdit,
   onDelete,
   onStatusChange,
 }: {
   rfis: Rfi[];
   isLoading: boolean;
   onView: (id: string) => void;
+  onNew: () => void;
+  onEdit: (id: string) => void;
   onDelete: (id: string) => void;
   onStatusChange: (id: string, status: string) => void;
 }) {
@@ -100,7 +104,7 @@ export function RfisTable({
         </p>
         <button
           type="button"
-          onClick={() => alert("Open new RFI modal")}
+          onClick={onNew}
           className="mt-4 h-9 rounded-md bg-[#818CF8] px-4 text-[13px] font-medium text-[#0B0F19] transition-colors hover:brightness-110"
         >
           New RFI
@@ -186,7 +190,7 @@ export function RfisTable({
                   {rfi.status === "draft" && (
                     <>
                       <DropdownMenuItem
-                        onSelect={() => alert("Open edit RFI")}
+                        onSelect={() => onEdit(rfi.id)}
                         className="rounded-md px-2 py-1.5 text-[13px] text-[#94A3B8] focus:bg-[#1E293B] focus:text-[#F8FAFC]"
                       >
                         <Pencil size={14} strokeWidth={1.5} />

@@ -16,12 +16,14 @@ export function RfiDetailDialog({
   open,
   onOpenChange,
   onStatusChange,
+  onEdit,
   isUpdating,
 }: {
   rfi: Rfi | null;
   open: boolean;
   onOpenChange: (open: boolean) => void;
   onStatusChange: (status: string) => void;
+  onEdit: () => void;
   isUpdating: boolean;
 }) {
   const router = useRouter();
@@ -150,7 +152,7 @@ export function RfiDetailDialog({
               <button
                 type="button"
                 disabled={isUpdating}
-                onClick={() => alert("Open edit RFI")}
+                onClick={onEdit}
                 className="h-9 rounded-md border border-[#334155] bg-transparent px-4 text-[13px] text-[#94A3B8] transition-colors hover:bg-[#1E293B] hover:text-[#F8FAFC] disabled:opacity-40"
               >
                 Edit

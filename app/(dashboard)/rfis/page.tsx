@@ -10,10 +10,12 @@ import { RfiFilters } from "@/components/rfi-filters";
 import { RfisTable } from "@/components/rfis-table";
 import { RfiDetailDialog } from "@/components/rfi-detail-dialog";
 import { DeleteRfiDialog } from "@/components/delete-rfi-dialog";
+import { RfiFormDialog } from "@/components/rfi-form-dialog";
 import { Skeleton } from "@/components/ui/skeleton";
 import { extractErrorMessage } from "@/lib/api";
 import { toast } from "sonner";
 import type {
+  Rfi,
   RfiPriority,
   RfiSortBy,
   RfiSortOrder,
@@ -75,6 +77,8 @@ export default function RfisPage() {
   const [detailOpen, setDetailOpen] = useState(false);
   const [deleteId, setDeleteId] = useState<string | null>(null);
   const [deleteOpen, setDeleteOpen] = useState(false);
+  const [formOpen, setFormOpen] = useState(false);
+  const [editingRfi, setEditingRfi] = useState<Rfi | null>(null);
 
   const { sortBy, sortOrder } = SORT_MAP[sortKey] ?? SORT_MAP.date;
 
@@ -164,7 +168,10 @@ export default function RfisPage() {
           </div>
           <button
             type="button"
-            onClick={() => alert("Open new RFI modal")}
+            onClick={() => {
+              setEditingRfi(null);
+              setFormOpen(true);
+            }}
             className="flex h-9 items-center gap-2 rounded-md bg-[#818CF8] px-4 text-[13px] font-medium text-[#0B0F19] transition-colors hover:brightness-110"
           >
             <Plus size={14} strokeWidth={1.5} />
@@ -196,6 +203,14 @@ export default function RfisPage() {
             setSelectedId(id);
             setDetailOpen(true);
           }}
+          onNew={() => {
+            setEditingRfi(null);
+            setFormOpen(true);
+          }}
+          onEdit={(id) => {
+            setEditingRfi(rfis.find((r) => r.id === id) ?? null);
+            setFormOpen(true);
+          }}
           onDelete={(id) => {
             setDeleteId(id);
             setDeleteOpen(true);
@@ -213,6 +228,10 @@ export default function RfisPage() {
             handleStatusChange(selectedId, status);
           }
         }}
+        onEdit={() => {
+          setEditingRfi(selectedRfi);
+          setFormOpen(true);
+        }}
         isUpdating={updateStatusMutation.isPending}
       />
 
@@ -222,6 +241,12 @@ export default function RfisPage() {
         onConfirm={handleConfirmDelete}
         rfiNumber={deleteRfi?.rfi_number ?? ""}
         isLoading={deleteMutation.isPending}
+      />
+
+      <RfiFormDialog
+        rfi={editingRfi}
+        open={formOpen}
+        onOpenChange={setFormOpen}
       />
     </div>
   );

@@ -517,3 +517,30 @@ export async function updateRFIStatus(
 export async function deleteRFI(rfiId: string): Promise<void> {
   await api.delete(`/rfis/${rfiId}`);
 }
+
+export interface CreateRfiInput {
+  project_id: string;
+  title: string;
+  description: string;
+  priority: RfiPriority;
+  due_date: string | null;
+  assigned_to_name: string | null;
+  linked_violation_id: string | null;
+}
+
+export interface UpdateRfiInput extends CreateRfiInput {
+  status: RfiStatus;
+}
+
+export async function createRFI(input: CreateRfiInput): Promise<Rfi> {
+  const { data } = await api.post<Rfi>("/rfis", input);
+  return data;
+}
+
+export async function updateRFI(
+  rfiId: string,
+  input: UpdateRfiInput
+): Promise<Rfi> {
+  const { data } = await api.patch<Rfi>(`/rfis/${rfiId}`, input);
+  return data;
+}
