@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, type DragEvent } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
@@ -8,9 +8,7 @@ import MapPinIcon from "@mui/icons-material/LocationOn";
 import FileTextIcon from "@mui/icons-material/Description";
 import UploadCloudIcon from "@mui/icons-material/CloudUpload";
 import AlertTriangleIcon from "@mui/icons-material/Warning";
-import Sidebar from "@/components/sidebar";
-import Header from "@/components/header";
-import StatusBadge from "@/components/status-badge";
+import { StatusBadge } from "@/components/status-badge";
 import { formatCurrency, formatDate, formatDateRange } from "@/lib/formatters";
 import {
   useProjectDetail,
@@ -118,44 +116,40 @@ function DrawingRowSkeleton() {
 
 function PageSkeleton() {
   return (
-    <div className="ml-[220px] mt-14 p-6 bg-[#0D1117] min-h-screen">
-      <div className="mb-4">
-        <div className="h-3 w-32 bg-[#1E293B] rounded animate-pulse" />
-      </div>
-      <div className="flex justify-between items-start mb-6">
-        <div>
-          <div className="h-6 w-48 bg-[#1E293B] rounded mb-2 animate-pulse" />
+    <div className="min-h-screen bg-[#0D1117]">
+      <div className="mx-auto max-w-6xl">
+        <div className="mb-4">
           <div className="h-3 w-32 bg-[#1E293B] rounded animate-pulse" />
         </div>
-      </div>
-      <div className="grid grid-cols-4 gap-4 mb-6">
-        <InfoCardSkeleton />
-        <InfoCardSkeleton />
-        <InfoCardSkeleton />
-        <InfoCardSkeleton />
-      </div>
-      <TabBarSkeleton />
-      <div>
-        <div className="h-4 w-32 bg-[#1E293B] rounded mb-4 animate-pulse" />
-        <DrawingRowSkeleton />
-        <DrawingRowSkeleton />
-        <DrawingRowSkeleton />
+        <div className="flex justify-between items-start mb-6">
+          <div>
+            <div className="h-6 w-48 bg-[#1E293B] rounded mb-2 animate-pulse" />
+            <div className="h-3 w-32 bg-[#1E293B] rounded animate-pulse" />
+          </div>
+        </div>
+        <div className="grid grid-cols-4 gap-4 mb-6">
+          <InfoCardSkeleton />
+          <InfoCardSkeleton />
+          <InfoCardSkeleton />
+          <InfoCardSkeleton />
+        </div>
+        <TabBarSkeleton />
+        <div>
+          <div className="h-4 w-32 bg-[#1E293B] rounded mb-4 animate-pulse" />
+          <DrawingRowSkeleton />
+          <DrawingRowSkeleton />
+          <DrawingRowSkeleton />
+        </div>
       </div>
     </div>
   );
 }
 
 // Tab components
-interface DrawingsTabProps {
-  projectId: string;
-  drawings: Drawing[];
-  isLoading: boolean;
-}
-
-function DrawingsTab({ projectId, drawings, isLoading }: DrawingsTabProps) {
+function DrawingsTab({ drawings, isLoading }: { drawings: Drawing[]; isLoading: boolean }) {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
+  const handleDrop = (e: DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     const files = Array.from(e.dataTransfer.files);
     const ifcFiles = files.filter((f) => f.name.endsWith(".ifc"));
@@ -164,7 +158,7 @@ function DrawingsTab({ projectId, drawings, isLoading }: DrawingsTabProps) {
     }
   };
 
-  const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+  const handleDragOver = (e: DragEvent<HTMLDivElement>) => {
     e.preventDefault();
   };
 
@@ -241,13 +235,7 @@ function DrawingsTab({ projectId, drawings, isLoading }: DrawingsTabProps) {
   );
 }
 
-interface BidsTabProps {
-  projectId: string;
-  bids: Bid[];
-  isLoading: boolean;
-}
-
-function BidsTab({ projectId, bids, isLoading }: BidsTabProps) {
+function BidsTab({ bids, isLoading }: { bids: Bid[]; isLoading: boolean }) {
   return (
     <div>
       <h3 className="text-[15px] font-medium text-[#F8FAFC] mb-4">Bids</h3>
@@ -290,13 +278,7 @@ function BidsTab({ projectId, bids, isLoading }: BidsTabProps) {
   );
 }
 
-interface ComplianceTabProps {
-  projectId: string;
-  violations: Violation[];
-  isLoading: boolean;
-}
-
-function ComplianceTab({ projectId, violations, isLoading }: ComplianceTabProps) {
+function ComplianceTab({ violations, isLoading }: { violations: Violation[]; isLoading: boolean }) {
   return (
     <div>
       <h3 className="text-[15px] font-medium text-[#F8FAFC] mb-4">Compliance</h3>
@@ -333,13 +315,7 @@ function ComplianceTab({ projectId, violations, isLoading }: ComplianceTabProps)
   );
 }
 
-interface RFIsTabProps {
-  projectId: string;
-  rfis: RFI[];
-  isLoading: boolean;
-}
-
-function RFIsTab({ projectId, rfis, isLoading }: RFIsTabProps) {
+function RFIsTab({ rfis, isLoading }: { rfis: RFI[]; isLoading: boolean }) {
   return (
     <div>
       <h3 className="text-[15px] font-medium text-[#F8FAFC] mb-4">RFIs</h3>
@@ -377,11 +353,7 @@ function RFIsTab({ projectId, rfis, isLoading }: RFIsTabProps) {
   );
 }
 
-interface SustainabilityTabProps {
-  projectId: string;
-}
-
-function SustainabilityTab({ projectId }: SustainabilityTabProps) {
+function SustainabilityTab() {
   return (
     <div>
       <h3 className="text-[15px] font-medium text-[#F8FAFC] mb-4">Sustainability</h3>
@@ -394,7 +366,6 @@ export default function ProjectDetailPage() {
   const params = useParams<{ id: string }>();
   const projectId = params?.id ?? "";
 
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [activeTab, setActiveTab] = useState<TabType>("drawings");
 
   const { project, isLoading: projectLoading, error: projectError, refetch } = useProjectDetail(projectId);
@@ -410,42 +381,29 @@ export default function ProjectDetailPage() {
   const rfisCount = rfis.length;
 
   if (projectLoading) {
-    return (
-      <>
-        <Sidebar collapsed={sidebarCollapsed} onToggle={() => setSidebarCollapsed(!sidebarCollapsed)} />
-        <Header collapsed={sidebarCollapsed} />
-        <PageSkeleton />
-      </>
-    );
+    return <PageSkeleton />;
   }
 
   if (projectError || !project) {
     return (
-      <>
-        <Sidebar collapsed={sidebarCollapsed} onToggle={() => setSidebarCollapsed(!sidebarCollapsed)} />
-        <Header collapsed={sidebarCollapsed} />
-        <div className="ml-[220px] mt-14 p-6 bg-[#0D1117] min-h-screen flex items-center justify-center">
-          <div className="text-center">
-            <AlertTriangleIcon style={{ fontSize: 24 }} className="text-[#EF4444] mx-auto mb-3" />
-            <p className="text-[14px] text-[#94A3B8] mb-4">Failed to load project</p>
-            <button
-              onClick={refetch}
-              className="h-8 px-3 bg-transparent border border-[#334155] rounded-md text-[13px] text-[#94A3B8] hover:text-[#F8FAFC] hover:border-[#475569]"
-            >
-              Retry
-            </button>
-          </div>
+      <div className="min-h-screen bg-[#0D1117] flex items-center justify-center">
+        <div className="text-center">
+          <AlertTriangleIcon style={{ fontSize: 24 }} className="text-[#EF4444] mx-auto mb-3" />
+          <p className="text-[14px] text-[#94A3B8] mb-4">Failed to load project</p>
+          <button
+            onClick={refetch}
+            className="h-8 px-3 bg-transparent border border-[#334155] rounded-md text-[13px] text-[#94A3B8] hover:text-[#F8FAFC] hover:border-[#475569]"
+          >
+            Retry
+          </button>
         </div>
-      </>
+      </div>
     );
   }
 
   return (
-    <>
-      <Sidebar collapsed={sidebarCollapsed} onToggle={() => setSidebarCollapsed(!sidebarCollapsed)} />
-      <Header collapsed={sidebarCollapsed} />
-      
-      <main className="ml-[220px] mt-14 p-6 bg-[#0D1117] min-h-screen">
+    <div className="min-h-screen bg-[#0D1117]">
+      <div className="mx-auto max-w-6xl">
         {/* Breadcrumb */}
         <div className="flex items-center gap-2 mb-4">
           <Link
@@ -585,22 +543,22 @@ export default function ProjectDetailPage() {
         {/* Tab Content */}
         <div>
           {activeTab === "drawings" && (
-            <DrawingsTab projectId={projectId} drawings={drawings} isLoading={drawingsLoading} />
+            <DrawingsTab drawings={drawings} isLoading={drawingsLoading} />
           )}
           {activeTab === "bids" && (
-            <BidsTab projectId={projectId} bids={bids} isLoading={bidsLoading} />
+            <BidsTab bids={bids} isLoading={bidsLoading} />
           )}
           {activeTab === "compliance" && (
-            <ComplianceTab projectId={projectId} violations={violations} isLoading={violationsLoading} />
+            <ComplianceTab violations={violations} isLoading={violationsLoading} />
           )}
           {activeTab === "rfis" && (
-            <RFIsTab projectId={projectId} rfis={rfis} isLoading={rfisLoading} />
+            <RFIsTab rfis={rfis} isLoading={rfisLoading} />
           )}
           {activeTab === "sustainability" && (
-            <SustainabilityTab projectId={projectId} />
+            <SustainabilityTab />
           )}
         </div>
-      </main>
-    </>
+      </div>
+    </div>
   );
 }

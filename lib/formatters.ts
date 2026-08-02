@@ -37,6 +37,12 @@ export function formatRelativeTime(iso: string): string {
   });
 }
 
+export function formatDate(iso: string): string {
+  const date = new Date(iso);
+  if (Number.isNaN(date.getTime())) return "";
+  return fullDateFormatter.format(date);
+}
+
 export function formatUpdatedDate(iso: string): string {
   const date = new Date(iso);
   if (Number.isNaN(date.getTime())) return "";
