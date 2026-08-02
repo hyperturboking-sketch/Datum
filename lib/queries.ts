@@ -4,9 +4,12 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   api,
   createProject,
+  deleteBid,
   deleteProject,
+  fetchBids,
   fetchProjects,
   type ActivityListResponse,
+  type BidFilters,
   type CreateProjectInput,
   type DashboardStats,
   type ProjectFilters,
@@ -80,6 +83,33 @@ export function useDeleteProject() {
     mutationFn: (projectId: string) => deleteProject(projectId),
     onSuccess: () => {
       void queryClient.invalidateQueries({ queryKey: ["projects"] });
+    },
+  });
+}
+
+export function useBids(filters: BidFilters) {
+  return useQuery({
+    queryKey: [
+      "bids",
+      "list",
+      filters.search,
+      filters.statuses.join(","),
+      filters.sortBy,
+      filters.sortOrder,
+      filters.limit,
+      filters.offset,
+    ],
+    queryFn: () => fetchBids(filters),
+    placeholderData: (previous) => previous,
+  });
+}
+
+export function useDeleteBid() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (bidId: string) => deleteBid(bidId),
+    onSuccess: () => {
+      void queryClient.invalidateQueries({ queryKey: ["bids"] });
     },
   });
 }

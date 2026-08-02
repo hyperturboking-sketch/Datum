@@ -19,22 +19,16 @@ export function formatRelativeTime(iso: string): string {
   const date = new Date(iso);
   if (Number.isNaN(date.getTime())) return "";
 
-  const seconds = Math.floor((Date.now() - date.getTime()) / 1000);
-  const minutes = Math.floor(seconds / 60);
-  const hours = Math.floor(minutes / 60);
-  const days = Math.floor(hours / 24);
+  const diffMs = Date.now() - date.getTime();
+  const diffMins = Math.floor(diffMs / 60000);
+  const diffHours = Math.floor(diffMs / 3600000);
+  const diffDays = Math.floor(diffMs / 86400000);
 
-  if (seconds < 45) return "just now";
-  if (minutes < 1) return `${seconds} sec ago`;
-  if (minutes < 60) return `${minutes} min ago`;
-  if (hours < 24) return `${hours} hr ago`;
-  if (days < 7) return `${days} day${days === 1 ? "" : "s"} ago`;
-
-  return date.toLocaleDateString("en-US", {
-    month: "short",
-    day: "numeric",
-    year: "numeric",
-  });
+  if (diffMins < 1) return "just now";
+  if (diffMins < 60) return `${diffMins} min ago`;
+  if (diffHours < 24) return `${diffHours} hr ago`;
+  if (diffDays < 30) return `${diffDays} day${diffDays > 1 ? "s" : ""} ago`;
+  return formatDate(iso);
 }
 
 export function formatDate(iso: string): string {

@@ -33,6 +33,15 @@ const red =
 const slate =
   "bg-[rgba(100,116,139,0.10)] text-[#64748B] border-[rgba(100,116,139,0.20)]";
 
+const indigo =
+  "bg-[rgba(129,140,248,0.10)] text-[#818CF8] border-[rgba(129,140,248,0.20)]";
+const info =
+  "bg-[rgba(96,165,250,0.10)] text-[#60A5FA] border-[rgba(96,165,250,0.20)]";
+const success =
+  "bg-[rgba(34,197,94,0.10)] text-[#22C55E] border-[rgba(34,197,94,0.20)]";
+const danger =
+  "bg-[rgba(248,113,113,0.10)] text-[#F87171] border-[rgba(248,113,113,0.20)]";
+
 const variantStyles: Record<string, Record<string, string>> = {
   parse: {
     pending: amber,
@@ -41,12 +50,13 @@ const variantStyles: Record<string, Record<string, string>> = {
     failed: red,
   },
   bid: {
-    draft: slate,
-    pending_review: amber,
-    approved: green,
-    submitted: blue,
-    won: green,
-    lost: red,
+    draft: amber,
+    pending_review: info,
+    approved: indigo,
+    submitted: indigo,
+    won: success,
+    lost: danger,
+    archived: slate,
   },
   violation: {
     critical: red,
@@ -77,6 +87,7 @@ const variantLabels: Record<string, Record<string, string>> = {
     submitted: "Submitted",
     won: "Won",
     lost: "Lost",
+    archived: "Archived",
   },
   violation: {
     critical: "Critical",

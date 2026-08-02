@@ -253,3 +253,70 @@ export async function createProject(
 export async function deleteProject(projectId: string): Promise<void> {
   await api.delete(`/projects/${projectId}`);
 }
+
+export type BidStatus =
+  | "draft"
+  | "pending_review"
+  | "approved"
+  | "submitted"
+  | "won"
+  | "lost"
+  | "archived";
+
+export type BidSortBy =
+  | "updated_at"
+  | "created_at"
+  | "grand_total"
+  | "bid_name";
+export type BidSortOrder = "asc" | "desc";
+
+export interface Bid {
+  id: string;
+  project_id: string;
+  project_name: string;
+  client_name: string;
+  bid_name: string;
+  status: BidStatus;
+  grand_total: number;
+  currency: string;
+  line_item_count: number;
+  pdf_url: string | null;
+  created_by_name: string;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface BidFilters {
+  search: string;
+  statuses: BidStatus[];
+  sortBy: BidSortBy;
+  sortOrder: BidSortOrder;
+  limit: number;
+  offset: number;
+}
+
+export interface BidListResponse {
+  bids: Bid[];
+  total: number;
+}
+
+export async function fetchBids(filters: BidFilters): Promise<BidListResponse> {
+  const params: Record<string, unknown> = {
+    limit: filters.limit,
+    offset: filters.offset,
+    sort_by: filters.sortBy,
+    sort_order: filters.sortOrder,
+  };
+  if (filters.search.trim()) {
+    params.search = filters.search.trim();
+  }
+  if (filters.statuses.length > 0) {
+    params.status = filters.statuses.join(",");
+  }
+  const { data } = await api.get<BidListResponse>("/bids", { params });
+  return data;
+}
+
+export async function deleteBid(bidId: string): Promise<void> {
+  await api.delete(`/bids/${bidId}`);
+}
