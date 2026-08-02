@@ -2,7 +2,7 @@
 
 import { useState, useRef, useCallback } from "react";
 import { UploadCloud, FileText, CheckCircle, AlertTriangle, Loader2, X } from "lucide-react";
-import StatusBadge from "@/components/status-badge";
+import { StatusBadge } from "@/components/status-badge";
 
 interface Drawing {
   id: string;
@@ -22,8 +22,7 @@ interface Drawing {
 }
 
 interface IfcUploadZoneProps {
-  projectId: string;
-  onUploadComplete: (drawing: Drawing) => void;
+  onUploadComplete?: (drawing: Drawing) => void;
 }
 
 type UploadState = "idle" | "uploading" | "parsing" | "completed" | "error";
@@ -48,7 +47,7 @@ function formatRelativeTime(dateString: string): string {
   return date.toLocaleDateString();
 }
 
-export default function IfcUploadZone({ projectId, onUploadComplete }: IfcUploadZoneProps) {
+export default function IfcUploadZone({ onUploadComplete }: IfcUploadZoneProps) {
   const [state, setState] = useState<UploadState>("idle");
   const [progress, setProgress] = useState(0);
   const [uploadingFile, setUploadingFile] = useState<File | null>(null);
@@ -119,7 +118,7 @@ export default function IfcUploadZone({ projectId, onUploadComplete }: IfcUpload
 
           setState("completed");
           setUploadedModels((prev) => [...prev, mockDrawing]);
-          onUploadComplete(mockDrawing);
+          onUploadComplete?.(mockDrawing);
         }, 3000);
       }
     }, 50);
@@ -338,7 +337,7 @@ export default function IfcUploadZone({ projectId, onUploadComplete }: IfcUpload
                 </div>
                 
                 <div className="flex items-center">
-                  <StatusBadge status={model.parse_status} />
+                  <StatusBadge status={model.parse_status} variant="parse" />
                   <span className="text-[11px] text-[#475569] tabular-nums ml-4">
                     {formatRelativeTime(model.created_at)}
                   </span>

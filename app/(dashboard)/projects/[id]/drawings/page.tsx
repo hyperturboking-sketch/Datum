@@ -1,6 +1,6 @@
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import Link from "next/link";
-import { IfcUploadZone } from "@/components/ifc-upload-zone";
+import IfcUploadZone from "@/components/ifc-upload-zone";
 import { IfcUploadList } from "@/components/ifc-upload-list";
 
 export default async function DrawingsPage({
@@ -39,7 +39,7 @@ export default async function DrawingsPage({
               IFC 2×3 or IFC 4 · .ifc only · up to 200 MB
             </p>
           </div>
-          <IfcUploadZone projectId={id} />
+          <IfcUploadZone />
         </div>
         <div className="lg:col-span-2">
           <IfcUploadList projectId={id} />
