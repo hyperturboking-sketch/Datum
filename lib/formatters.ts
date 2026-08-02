@@ -54,3 +54,39 @@ export function getInitials(name: string): string {
   const last = parts.length > 1 ? (parts[parts.length - 1]?.[0] ?? "") : "";
   return (first + last).toUpperCase();
 }
+
+const shortDateFormatter = new Intl.DateTimeFormat("en-US", {
+  month: "short",
+  day: "numeric",
+});
+
+const fullDateFormatter = new Intl.DateTimeFormat("en-US", {
+  month: "short",
+  day: "numeric",
+  year: "numeric",
+});
+
+function parseDate(value: string | null): Date | null {
+  if (!value) return null;
+  const date = new Date(`${value}T00:00:00`);
+  return Number.isNaN(date.getTime()) ? null : date;
+}
+
+export function formatDateRange(
+  startDate: string | null,
+  endDate: string | null
+): string {
+  const start = parseDate(startDate);
+  const end = parseDate(endDate);
+
+  if (start && end) {
+    return `${shortDateFormatter.format(start)} — ${fullDateFormatter.format(end)}`;
+  }
+  if (start) {
+    return `Started ${fullDateFormatter.format(start)}`;
+  }
+  if (end) {
+    return `Ends ${fullDateFormatter.format(end)}`;
+  }
+  return "—";
+}

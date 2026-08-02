@@ -62,7 +62,15 @@ export interface DashboardStats {
   overdue_rfis: number;
 }
 
-export type ProjectStatus = "active" | "planning" | "completed" | "on_hold";
+export type ProjectStatus =
+  | "active"
+  | "planning"
+  | "completed"
+  | "on_hold"
+  | "archived";
+
+export type ProjectSortBy = "updated_at" | "name" | "contract_value" | "start_date";
+export type ProjectSortOrder = "asc" | "desc";
 
 export interface Project {
   id: string;
@@ -70,8 +78,32 @@ export interface Project {
   client_name: string;
   status: ProjectStatus;
   contract_value: number;
-  updated_at: string;
   currency: string;
+  location: string | null;
+  start_date: string | null;
+  end_date: string | null;
+  updated_at: string;
+  created_at: string;
+  bid_count: number;
+  open_violation_count: number;
+}
+
+export interface ProjectFilters {
+  search: string;
+  statuses: ProjectStatus[];
+  sortBy: ProjectSortBy;
+  sortOrder: ProjectSortOrder;
+  limit: number;
+  offset: number;
+}
+
+export interface CreateProjectInput {
+  name: string;
+  client_name: string;
+  contract_value: number;
+  location: string | null;
+  start_date: string | null;
+  end_date: string | null;
 }
 
 export interface ProjectListResponse {
@@ -190,4 +222,34 @@ export async function runBidEstimation(
   ifcUploadId: string
 ): Promise<void> {
   await api.post("/bids", { project_id: projectId, ifc_upload_id: ifcUploadId });
+}
+
+export async function fetchProjects(
+  filters: ProjectFilters
+): Promise<ProjectListResponse> {
+  const params: Record<string, unknown> = {
+    limit: filters.limit,
+    offset: filters.offset,
+    sort_by: filters.sortBy,
+    sort_order: filters.sortOrder,
+  };
+  if (filters.search.trim()) {
+    params.search = filters.search.trim();
+  }
+  if (filters.statuses.length > 0) {
+    params.status = filters.statuses.join(",");
+  }
+  const { data } = await api.get<ProjectListResponse>("/projects", { params });
+  return data;
+}
+
+export async function createProject(
+  input: CreateProjectInput
+): Promise<Project> {
+  const { data } = await api.post<Project>("/projects", input);
+  return data;
+}
+
+export async function deleteProject(projectId: string): Promise<void> {
+  await api.delete(`/projects/${projectId}`);
 }
