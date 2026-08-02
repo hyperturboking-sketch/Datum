@@ -361,3 +361,83 @@ export async function updateBidStatus(
   const { data } = await api.patch<Bid>(`/bids/${bidId}`, { status });
   return data;
 }
+
+export type ViolationSeverity = "critical" | "major" | "minor";
+
+export type ViolationStatus = "open" | "under_review" | "resolved" | "waived";
+
+export interface Violation {
+  id: string;
+  project_id: string;
+  project_name: string;
+  code: string;
+  code_standard: string;
+  description: string;
+  severity: ViolationSeverity;
+  element_name: string | null;
+  element_type: string | null;
+  status: ViolationStatus;
+  suggested_fix: string | null;
+  created_at: string;
+  resolved_at: string | null;
+  resolved_by_name: string | null;
+}
+
+export type ViolationSortBy =
+  | "created_at"
+  | "severity"
+  | "status"
+  | "project_name";
+export type ViolationSortOrder = "asc" | "desc";
+
+export interface ViolationFilters {
+  search: string;
+  severities: ViolationSeverity[];
+  statuses: ViolationStatus[];
+  standards: string[];
+  sortBy: ViolationSortBy;
+  sortOrder: ViolationSortOrder;
+  limit: number;
+  offset: number;
+}
+
+export interface ViolationListResponse {
+  violations: Violation[];
+  total: number;
+}
+
+export async function fetchViolations(
+  filters: ViolationFilters
+): Promise<ViolationListResponse> {
+  const params: Record<string, unknown> = {
+    limit: filters.limit,
+    offset: filters.offset,
+    sort_by: filters.sortBy,
+    sort_order: filters.sortOrder,
+  };
+  if (filters.search.trim()) {
+    params.search = filters.search.trim();
+  }
+  if (filters.severities.length > 0) {
+    params.severity = filters.severities.join(",");
+  }
+  if (filters.statuses.length > 0) {
+    params.status = filters.statuses.join(",");
+  }
+  if (filters.standards.length > 0) {
+    params.standard = filters.standards.join(",");
+  }
+  const { data } = await api.get<ViolationListResponse>("/violations", {
+    params,
+  });
+  return data;
+}
+
+export async function resolveViolation(
+  violationId: string
+): Promise<Violation> {
+  const { data } = await api.patch<Violation>(`/violations/${violationId}`, {
+    status: "resolved",
+  });
+  return data;
+}

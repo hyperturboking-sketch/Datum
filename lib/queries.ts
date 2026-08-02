@@ -9,6 +9,8 @@ import {
   fetchBidDetail,
   fetchBids,
   fetchProjects,
+  fetchViolations,
+  resolveViolation,
   updateBidStatus,
   type ActivityListResponse,
   type Bid,
@@ -18,6 +20,8 @@ import {
   type DashboardStats,
   type ProjectFilters,
   type ProjectListResponse,
+  type Violation,
+  type ViolationFilters,
 } from "@/lib/api";
 
 export function useDashboardStats() {
@@ -134,6 +138,35 @@ export function useUpdateBidStatus() {
     onSuccess: (bid: Bid) => {
       void queryClient.invalidateQueries({ queryKey: ["bids"] });
       void queryClient.setQueryData(["bid", bid.id], bid);
+    },
+  });
+}
+
+export function useViolations(filters: ViolationFilters) {
+  return useQuery({
+    queryKey: [
+      "violations",
+      filters.search,
+      filters.severities.join(","),
+      filters.statuses.join(","),
+      filters.standards.join(","),
+      filters.sortBy,
+      filters.sortOrder,
+      filters.limit,
+      filters.offset,
+    ],
+    queryFn: () => fetchViolations(filters),
+    placeholderData: (previous) => previous,
+  });
+}
+
+export function useResolveViolation() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (violationId: string) => resolveViolation(violationId),
+    onSuccess: (violation: Violation) => {
+      void queryClient.invalidateQueries({ queryKey: ["violations"] });
+      void queryClient.setQueryData(["violation", violation.id], violation);
     },
   });
 }

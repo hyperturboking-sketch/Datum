@@ -63,7 +63,9 @@ const variantStyles: Record<string, Record<string, string>> = {
     major: amber,
     minor: slate,
     open: red,
+    under_review: amber,
     resolved: green,
+    waived: slate,
   },
   rfi: {
     draft: slate,
@@ -94,7 +96,9 @@ const variantLabels: Record<string, Record<string, string>> = {
     major: "Major",
     minor: "Minor",
     open: "Open",
+    under_review: "Under review",
     resolved: "Resolved",
+    waived: "Waived",
   },
   rfi: {
     draft: "Draft",
