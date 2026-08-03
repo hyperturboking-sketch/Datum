@@ -1,59 +1,69 @@
-const columns = [
-  {
-    title: "Product",
-    links: ["Features", "Architecture", "Workflow", "Integrations", "Pricing"],
-  },
-  {
-    title: "Company",
-    links: ["About", "Careers", "Blog", "Press"],
-  },
-  {
-    title: "Resources",
-    links: ["Documentation", "API Reference", "Help Center", "Community"],
-  },
-  {
-    title: "Legal",
-    links: ["Privacy", "Terms", "Security", "DPA"],
-  },
-];
+"use client";
 
 export default function Footer() {
   return (
-    <footer className="border-t border-[#E2E8F0] bg-white">
-      <div className="mx-auto max-w-7xl px-6 py-16">
-        <div className="grid grid-cols-2 gap-10 md:grid-cols-6">
-          <div className="col-span-2">
-            <a href="#top" className="flex items-center gap-2.5">
-              <span className="flex size-8 items-center justify-center rounded-[8px] bg-[#0F172A]">
-                <svg viewBox="0 0 512 512" fill="none" aria-hidden="true" className="size-4">
-                  <g fill="#FFFFFF">
-                    <path d="M118 150C118 132 132 118 150 118L150 118C168 118 182 132 182 150L182 362C182 380 168 394 150 394C132 394 118 380 118 362Z" />
-                    <path d="M230 120C230 108 240 98 252 98L370 98C387 98 401 112 401 129L401 212C401 224 388 231 378 225L248 151C237 145 230 133 230 120Z" />
-                    <path d="M230 392C230 404 240 414 252 414L370 414C387 414 401 400 401 383L401 300C401 288 388 281 378 287L248 361C237 367 230 379 230 392Z" />
-                  </g>
-                </svg>
-              </span>
-              <span className="font-serif text-[22px] font-normal leading-none tracking-tight text-[#0F172A]">
-                datum
-              </span>
-            </a>
-            <p className="mt-4 max-w-xs text-[14px] leading-relaxed text-[#64748B]">
-              The AI platform for structural engineering teams who build the
-              world&apos;s infrastructure.
+    <footer className="relative border-t border-[rgba(255,255,255,0.04)] bg-[#09090B] py-16 lg:py-20">
+      <div className="mx-auto max-w-7xl px-6">
+        <div className="grid grid-cols-1 gap-12 md:grid-cols-4">
+          {/* Brand */}
+          <div className="md:col-span-1">
+            <span
+              className="text-[18px] font-normal text-[#F5F5F5]"
+              style={{ fontFamily: "var(--font-brand)" }}
+            >
+              Datum
+            </span>
+            <p className="mt-3 text-[13px] leading-relaxed text-[#52525B] font-light">
+              The operating system for modern structural engineering.
             </p>
           </div>
 
-          {columns.map((column) => (
-            <div key={column.title}>
-              <h3 className="text-[13px] font-semibold uppercase tracking-wider text-[#94A3B8]">
-                {column.title}
-              </h3>
-              <ul className="mt-4 flex flex-col gap-3">
-                {column.links.map((link) => (
+          {/* Links */}
+          {[
+            {
+              title: "Product",
+              links: [
+                "IFC Parser",
+                "Quantity Takeoff",
+                "Code Compliance",
+                "Bid Automation",
+                "RFI Generation",
+                "API Documentation",
+              ],
+            },
+            {
+              title: "Company",
+              links: [
+                "About",
+                "Careers",
+                "Blog",
+                "Press",
+                "Contact",
+                "Partners",
+              ],
+            },
+            {
+              title: "Resources",
+              links: [
+                "Documentation",
+                "Case Studies",
+                "Webinars",
+                "Training",
+                "Support",
+                "Status",
+              ],
+            },
+          ].map((col) => (
+            <div key={col.title}>
+              <h4 className="text-[11px] font-medium uppercase tracking-[0.2em] text-[#52525B]">
+                {col.title}
+              </h4>
+              <ul className="mt-4 space-y-2.5">
+                {col.links.map((link) => (
                   <li key={link}>
                     <a
-                      href="#top"
-                      className="text-[14px] text-[#64748B] transition-colors hover:text-[#0F172A]"
+                      href="#"
+                      className="text-[13px] text-[#71717A] font-light transition-colors duration-300 hover:text-[#A1A1AA]"
                     >
                       {link}
                     </a>
@@ -64,20 +74,20 @@ export default function Footer() {
           ))}
         </div>
 
-        <div className="mt-14 flex flex-col items-center justify-between gap-4 border-t border-[#E2E8F0] pt-8 sm:flex-row">
-          <p className="text-[13px] text-[#94A3B8]">
-            © {new Date().getFullYear()} Datum. All rights reserved.
+        <div className="mt-16 flex flex-col items-center justify-between gap-4 border-t border-[rgba(255,255,255,0.04)] pt-8 md:flex-row">
+          <p className="text-[12px] text-[#3F3F46] font-light">
+            © 2026 Datum. All rights reserved.
           </p>
-          <div className="flex items-center gap-6">
-            <a href="#top" className="text-[13px] text-[#64748B] transition-colors hover:text-[#0F172A]">
-              X / Twitter
-            </a>
-            <a href="#top" className="text-[13px] text-[#64748B] transition-colors hover:text-[#0F172A]">
-              LinkedIn
-            </a>
-            <a href="#top" className="text-[13px] text-[#64748B] transition-colors hover:text-[#0F172A]">
-              GitHub
-            </a>
+          <div className="flex gap-6">
+            {["Privacy", "Terms", "Security"].map((item) => (
+              <a
+                key={item}
+                href="#"
+                className="text-[12px] text-[#3F3F46] font-light transition-colors duration-300 hover:text-[#71717A]"
+              >
+                {item}
+              </a>
+            ))}
           </div>
         </div>
       </div>

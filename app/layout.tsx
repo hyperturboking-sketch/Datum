@@ -1,25 +1,28 @@
 import type { Metadata } from "next";
-import { Inter, Open_Sans } from "next/font/google";
+import { Playfair_Display, Source_Sans_3 } from "next/font/google";
 import "./globals.css";
 import { Providers } from "@/lib/providers";
 import { AuthProvider } from "@/lib/auth";
 import { TooltipProvider } from "@/components/ui/tooltip";
 
-const inter = Inter({
+const playfair = Playfair_Display({
   subsets: ["latin"],
-  weight: ["400", "500", "600"],
-  variable: "--font-sans",
+  weight: "400",
+  variable: "--font-brand",
+  display: "swap",
 });
 
-const openSans = Open_Sans({
+const sourceSans = Source_Sans_3({
   subsets: ["latin"],
-  weight: ["400", "500"],
-  variable: "--font-description",
+  weight: ["300", "400", "500", "600"],
+  variable: "--font-body",
+  display: "swap",
 });
 
 export const metadata: Metadata = {
-  title: "Datum — AEC AI Platform",
-  description: "Enterprise structural engineering intelligence",
+  title: "Datum — The Operating System for Structural Engineering",
+  description:
+    "Enterprise-grade AI platform that transforms IFC models into actionable intelligence. Quantity takeoffs, code compliance, bid automation, and RFI generation — all in one pass.",
 };
 
 export default function RootLayout({
@@ -28,20 +31,21 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="en"
-      className={`${inter.variable} ${openSans.variable}`}
-    >
+    <html lang="en" className={`${playfair.variable} ${sourceSans.variable}`}>
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossOrigin="anonymous"
+        />
         {/* eslint-disable-next-line @next/next/no-page-custom-font */}
         <link
-          href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Source+Sans+3:wght@300;400;500;600&display=swap"
           rel="stylesheet"
         />
       </head>
-      <body className={`font-sans antialiased`}>
+      <body className="antialiased" style={{ fontFamily: "var(--font-body)" }}>
         <TooltipProvider>
           <Providers>
             <AuthProvider>{children}</AuthProvider>

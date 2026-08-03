@@ -1,158 +1,156 @@
 "use client";
 
-import { useState } from "react";
-import { Check } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
 
 const plans = [
   {
-    name: "Team",
-    monthly: 49,
-    yearly: 39,
-    description: "For small firms getting started with AI-assisted workflows.",
+    name: "Starter",
+    price: "Custom",
+    period: "per seat",
+    description: "For small teams getting started with structural intelligence.",
     features: [
-      "10 projects",
-      "Quantity takeoffs",
+      "5 IFC model uploads / month",
+      "Basic quantity takeoff",
       "Code compliance checks",
-      "Standard support",
+      "Email support",
     ],
-    featured: false,
+    cta: "Contact Sales",
+    highlighted: false,
   },
   {
-    name: "Pro",
-    monthly: 149,
-    yearly: 119,
-    description: "For growing teams that need the full Datum platform.",
+    name: "Professional",
+    price: "Custom",
+    period: "per seat",
+    description: "For firms that need full-spectrum structural analysis.",
     features: [
-      "Unlimited projects",
-      "All four AI agents",
-      "RFI automation",
-      "ESG & carbon reporting",
+      "Unlimited IFC model uploads",
+      "Advanced quantity takeoff with waste",
+      "Full code compliance suite",
+      "RFI generation",
+      "Bid automation",
       "Priority support",
+      "API access",
     ],
-    featured: true,
+    cta: "Contact Sales",
+    highlighted: true,
   },
   {
     name: "Enterprise",
-    monthly: null,
-    yearly: null,
-    description: "For organizations with custom security and scaling needs.",
+    price: "Custom",
+    period: "tailored",
+    description: "For large organizations with complex regulatory needs.",
     features: [
-      "Custom integrations",
+      "Everything in Professional",
+      "Custom AI agent training",
       "On-premise deployment",
-      "Dedicated success manager",
-      "SLA & SSO",
+      "Dedicated account manager",
+      "SSO & SAML",
+      "SLA guarantees",
+      "Custom integrations",
     ],
-    featured: false,
+    cta: "Talk to Us",
+    highlighted: false,
   },
 ];
 
 export default function Pricing() {
-  const [billing, setBilling] = useState<"cloud" | "onprem">("cloud");
+  const ref = useRef<HTMLDivElement>(null);
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) setVisible(true);
+      },
+      { threshold: 0.1 }
+    );
+    if (ref.current) observer.observe(ref.current);
+    return () => observer.disconnect();
+  }, []);
 
   return (
-    <section id="pricing" aria-label="Pricing" className="bg-white">
-      <div className="mx-auto max-w-7xl px-6 py-20 lg:py-28">
-        <div className="mx-auto max-w-3xl text-center">
-          <p className="mb-4 text-[13px] font-medium uppercase tracking-[0.18em] text-[#4F46E5]">
+    <section ref={ref} className="relative bg-[#09090B] py-24 lg:py-36">
+      <div className="mx-auto max-w-7xl px-6">
+        <div className="mx-auto max-w-2xl text-center">
+          <p
+            className={`mb-4 text-[11px] font-medium uppercase tracking-[0.25em] text-[#818CF8]/70 transition-all duration-700 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}
+          >
             Pricing
           </p>
-          <h2 className="font-serif text-[36px] font-medium leading-[1.1] tracking-[-0.02em] text-[#0F172A] sm:text-[44px]">
-            Simple pricing for teams of every size
+          <h2
+            className={`text-[clamp(1.75rem,4vw,3rem)] font-light leading-[1.1] tracking-[-0.02em] text-[#F5F5F5] transition-all duration-700 delay-100 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}
+            style={{ fontFamily: "var(--font-body)" }}
+          >
+            Built for engineering teams,
+            <br />
+            not individual users
           </h2>
-          <p className="mt-5 text-[17px] leading-relaxed text-[#64748B]">
-            Start free, scale when you are ready. No hidden fees, cancel any time.
+          <p
+            className={`mt-5 text-[15px] text-[#71717A] font-light transition-all duration-700 delay-200 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}
+          >
+            Every plan includes unlimited team members. Pricing scales with
+            your model volume, not your headcount.
           </p>
         </div>
 
-        <div className="mt-10 flex justify-center">
-          <div className="inline-flex rounded-[8px] border border-[#E2E8F0] bg-[#F8FAFC] p-1">
-            <button
-              type="button"
-              onClick={() => setBilling("cloud")}
-              className={`rounded-[8px] px-5 py-2 text-[14px] font-medium transition-colors ${
-                billing === "cloud"
-                  ? "bg-[#0F172A] text-white"
-                  : "text-[#64748B] hover:text-[#0F172A]"
-              }`}
-            >
-              Cloud
-            </button>
-            <button
-              type="button"
-              onClick={() => setBilling("onprem")}
-              className={`rounded-[8px] px-5 py-2 text-[14px] font-medium transition-colors ${
-                billing === "onprem"
-                  ? "bg-[#0F172A] text-white"
-                  : "text-[#64748B] hover:text-[#0F172A]"
-              }`}
-            >
-              On-Premise
-            </button>
-          </div>
-        </div>
-
-        <div className="mx-auto mt-14 grid max-w-5xl grid-cols-1 items-stretch gap-6 lg:grid-cols-3">
-          {plans.map((plan) => (
+        <div className="mx-auto mt-16 grid max-w-5xl grid-cols-1 gap-6 md:grid-cols-3">
+          {plans.map((plan, i) => (
             <div
               key={plan.name}
-              className={`relative flex flex-col rounded-[12px] border bg-white p-8 ${
-                plan.featured ? "border-2 border-[#4F46E5]" : "border-[#E2E8F0]"
-              }`}
+              className={`relative rounded-2xl border p-8 transition-all duration-700 ${
+                plan.highlighted
+                  ? "border-[#818CF8]/20 bg-[rgba(129,140,248,0.04)] shadow-[0_0_60px_rgba(129,140,248,0.06)]"
+                  : "border-[rgba(255,255,255,0.06)] bg-[rgba(255,255,255,0.02)]"
+              } ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
+              style={{ transitionDelay: `${200 + i * 150}ms` }}
             >
-              {plan.featured && (
-                <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-[#4F46E5] px-3 py-1 text-[11px] font-semibold uppercase tracking-wide text-white">
+              {plan.highlighted && (
+                <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-[#818CF8] px-3 py-1 text-[10px] font-medium uppercase tracking-[0.15em] text-[#09090B]">
                   Most Popular
                 </span>
               )}
-              <h3 className="text-[17px] font-semibold text-[#0F172A]">{plan.name}</h3>
-              <p className="mt-1.5 min-h-[40px] text-[13px] leading-relaxed text-[#64748B]">
+              <h3
+                className="text-[16px] font-medium text-[#F5F5F5]"
+                style={{ fontFamily: "var(--font-body)" }}
+              >
+                {plan.name}
+              </h3>
+              <div className="mt-4 flex items-baseline gap-1">
+                <span className="text-[clamp(1.5rem,3vw,2.5rem)] font-light text-[#F5F5F5]">
+                  {plan.price}
+                </span>
+                <span className="text-[13px] text-[#52525B] font-light">
+                  {plan.period}
+                </span>
+              </div>
+              <p className="mt-3 text-[13px] text-[#71717A] font-light">
                 {plan.description}
               </p>
-
-              <div className="mt-5 flex items-baseline gap-1.5">
-                {plan.monthly ? (
-                  <>
-                    <span className="font-serif text-[42px] font-medium leading-none tracking-tight text-[#0F172A] tabular-nums">
-                      ${billing === "cloud" ? plan.monthly : plan.yearly * 1.4}
+              <ul className="mt-6 space-y-2.5">
+                {plan.features.map((f) => (
+                  <li key={f} className="flex items-start gap-2.5">
+                    <span className="mt-0.5 text-[12px] text-[#818CF8]/60">
+                      ✓
                     </span>
-                    <span className="text-[14px] text-[#64748B]">/ user / mo</span>
-                  </>
-                ) : (
-                  <span className="font-serif text-[42px] font-medium leading-none tracking-tight text-[#0F172A]">
-                    Custom
-                  </span>
-                )}
-              </div>
-
-              <ul className="mt-7 flex flex-col gap-3">
-                {plan.features.map((feature) => (
-                  <li key={feature} className="flex items-start gap-2.5">
-                    <span className="mt-0.5 flex size-4.5 shrink-0 items-center justify-center rounded-full bg-[#DCFCE7]">
-                      <Check className="size-3 text-[#16A34A]" strokeWidth={2.5} />
+                    <span className="text-[13px] text-[#A1A1AA] font-light">
+                      {f}
                     </span>
-                    <span className="text-[14px] text-[#0F172A]">{feature}</span>
                   </li>
                 ))}
               </ul>
-
-              <button
-                type="button"
-                onClick={() => alert("Sign up")}
-                className={`mt-8 inline-flex h-11 w-full items-center justify-center rounded-[8px] text-[15px] font-medium transition-colors ${
-                  plan.featured
-                    ? "bg-[#0F172A] text-white hover:bg-[#1E293B]"
-                    : "border border-[#E2E8F0] bg-white text-[#0F172A] hover:border-[#CBD5E1] hover:shadow-[0px_1px_2px_rgba(0,0,0,0.04)]"
+              <a
+                href="#"
+                className={`mt-8 block w-full rounded-full py-3 text-center text-[13px] font-medium transition-all duration-500 active:scale-[0.98] ${
+                  plan.highlighted
+                    ? "bg-[#818CF8] text-[#09090B] hover:bg-[#6366F1]"
+                    : "border border-[rgba(255,255,255,0.08)] text-[#A1A1AA] hover:border-[rgba(255,255,255,0.15)] hover:text-[#F5F5F5]"
                 }`}
               >
-                {plan.monthly ? "Start Free Trial" : "Contact Sales"}
-              </button>
+                {plan.cta}
+              </a>
             </div>
           ))}
         </div>
-
-        <p className="mt-8 text-center text-[13px] text-[#94A3B8]">
-          All plans include a 14-day free trial. No credit card required.
-        </p>
       </div>
     </section>
   );
