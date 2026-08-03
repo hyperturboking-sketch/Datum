@@ -24,7 +24,7 @@ import { useAuth } from "@/lib/auth";
 import { getInitials } from "@/lib/formatters";
 
 const navItems = [
-  { label: "Dashboard", href: "/", icon: DashboardIcon },
+  { label: "Dashboard", href: "/dashboard", icon: DashboardIcon },
   { label: "Projects", href: "/projects", icon: ProjectsIcon },
   { label: "Bids", href: "/bids", icon: BidsIcon },
   { label: "Compliance", href: "/compliance", icon: ComplianceIcon },
