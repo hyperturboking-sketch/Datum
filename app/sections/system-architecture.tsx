@@ -1,9 +1,10 @@
 import { Calculator, ShieldCheck, MessageSquare, Leaf, FileText } from "lucide-react";
+import Image from "next/image";
 
 const inputs = [
-  { letter: "R", name: "Revit", color: "#0696D7" },
-  { letter: "T", name: "Tekla", color: "#4DB6AC" },
-  { letter: "A", name: "AutoCAD", color: "#E51050" },
+  { logo: "/logos/revit.svg", name: "Revit" },
+  { logo: "/logos/tekla.svg", name: "Tekla" },
+  { logo: "/logos/autocad.svg", name: "AutoCAD" },
 ];
 
 const agents = [
@@ -66,17 +67,16 @@ export default function SystemArchitecture() {
             {inputs.map((input) => (
               <div
                 key={input.name}
-                className="flex items-center justify-center gap-2.5 rounded-[12px] border border-[#E2E8F0] bg-white px-4 py-4"
+                className="flex items-center justify-center rounded-[12px] border border-[#E2E8F0] bg-white px-4 py-4"
               >
-                <span
-                  className="flex size-7 shrink-0 items-center justify-center rounded-[8px] text-[13px] font-semibold text-white"
-                  style={{ backgroundColor: input.color }}
-                >
-                  {input.letter}
-                </span>
-                <span className="hidden text-[14px] font-medium text-[#0F172A] sm:block">
-                  {input.name}
-                </span>
+                <Image
+                  src={input.logo}
+                  alt={input.name}
+                  width={0}
+                  height={0}
+                  sizes="100vw"
+                  className="h-7 w-auto max-w-full shrink-0 object-contain"
+                />
               </div>
             ))}
           </div>
