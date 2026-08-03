@@ -18,21 +18,22 @@ interface Integration {
   name: string;
   color: string;
   img?: string;
+  hideName?: boolean;
   siIcon?: SimpleIcon;
   multiPath?: Array<{ d: string; fill: string }>;
 }
 
 const integrations: Integration[] = [
-  { name: "Revit", color: "#186BFF", img: "/logos/revit.svg" },
-  { name: "AutoCAD", color: "#E51050", img: "/logos/autocad.svg" },
+  { name: "Revit", color: "#186BFF", img: "/logos/revit.svg", hideName: true },
+  { name: "AutoCAD", color: "#E51050", img: "/logos/autocad.svg", hideName: true },
   { name: "Bentley", color: "#3F9DBF", siIcon: siBentley },
-  { name: "SketchUp", color: "#0057F7", img: "/logos/sketchup.svg" },
+  { name: "SketchUp", color: "#0057F7", img: "/logos/sketchup.svg", hideName: true },
   { name: "Trimble", color: "#27337B", siIcon: siTrimble },
   { name: "ArcGIS", color: "#2C7AC3", siIcon: siArcgis },
   { name: "BIM", color: "#0F62FE", siIcon: siBim },
-  { name: "HubSpot", color: "#FF7A59", img: "/logos/hubspot.svg" },
+  { name: "HubSpot", color: "#FF7A59", img: "/logos/hubspot.svg", hideName: true },
   { name: "Google", color: "#4285F4", multiPath: GOOGLE_PATHS },
-  { name: "QuickBooks", color: "#2CA01C", img: "/logos/quickbooks.svg" },
+  { name: "QuickBooks", color: "#2CA01C", img: "/logos/quickbooks.svg", hideName: true },
   { name: "Slack", color: "#4A154B", img: "/logos/slack.svg" },
   { name: "Salesforce", color: "#00A1E0", img: "/logos/salesforce.svg" },
 ];
@@ -65,9 +66,11 @@ function IntegrationTile({ integration }: { integration: Integration }) {
           <path fill={integration.color} d={integration.siIcon.path} />
         </svg>
       ) : null}
-      <span className="text-[14px] font-medium whitespace-nowrap text-[#0F172A]">
-        {integration.name}
-      </span>
+      {!integration.hideName && (
+        <span className="text-[14px] font-medium whitespace-nowrap text-[#0F172A]">
+          {integration.name}
+        </span>
+      )}
     </div>
   );
 }
