@@ -1,6 +1,7 @@
 "use client";
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { toast } from "sonner";
 import {
   api,
   createApiKey,
@@ -9,6 +10,7 @@ import {
   deleteBid,
   deleteProject,
   deleteRFI,
+  extractErrorMessage,
   fetchApiKeys,
   fetchBidDetail,
   fetchBids,
@@ -40,6 +42,7 @@ import {
   type Rfi,
   type RfiFilters,
   type RfiStatus,
+  type SustainabilityReportListResponse,
   type UpdateRfiInput,
   type UserProfile,
   type UserRole,
@@ -341,5 +344,46 @@ export function useReportStats() {
   return useQuery({
     queryKey: ["reports", "stats"],
     queryFn: fetchReportStats,
+  });
+}
+
+export function useSustainabilityReports() {
+  return useQuery({
+    queryKey: ["sustainability", "reports"],
+    queryFn: async () => {
+      try {
+        const { data } =
+          await api.get<SustainabilityReportListResponse>("/sustainability/reports");
+        return data;
+      } catch (error) {
+        const status = (
+          error as { response?: { status?: number } }
+        )?.response?.status;
+        if (status === 404) {
+          return { reports: [], total: 0 };
+        }
+        throw error;
+      }
+    },
+  });
+}
+
+export function useDeleteSustainabilityReport() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async (reportId: string) => {
+      await api.delete(`/sustainability/reports/${reportId}`);
+    },
+    onSuccess: () => {
+      toast.success("Report deleted");
+      void queryClient.invalidateQueries({
+        queryKey: ["sustainability", "reports"],
+      });
+    },
+    onError: (error: unknown) => {
+      toast.error("Failed to delete report", {
+        description: extractErrorMessage(error),
+      });
+    },
   });
 }

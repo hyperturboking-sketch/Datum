@@ -685,3 +685,46 @@ export async function fetchReportStats(): Promise<ReportStats> {
   const { data } = await api.get<ReportStats>("/reports/stats");
   return data;
 }
+
+export type SustainabilityReportStatus =
+  | "draft"
+  | "generating"
+  | "completed"
+  | "failed";
+
+export interface SustainabilityReport {
+  id: string;
+  project_id: string;
+  project_name: string;
+  report_name: string;
+  status: SustainabilityReportStatus;
+  total_embodied_carbon_kg: number;
+  total_gwp: number;
+  leed_points_estimate: number;
+  material_breakdown: Array<{
+    material: string;
+    quantity: number;
+    unit: string;
+    epd_source: string;
+    carbon_factor: number;
+    total_carbon_kg: number;
+  }>;
+  recommendations: string[];
+  generated_at: string | null;
+  created_at: string;
+}
+
+export interface SustainabilityReportListResponse {
+  reports: SustainabilityReport[];
+  total: number;
+}
+
+export interface EPDUpload {
+  id: string;
+  file_name: string;
+  material_category: string;
+  manufacturer: string;
+  gwp_per_unit: number;
+  unit: string;
+  uploaded_at: string;
+}

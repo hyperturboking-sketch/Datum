@@ -83,6 +83,12 @@ const variantStyles: Record<string, Record<string, string>> = {
     pro: indigo,
     enterprise: success,
   },
+  sustainability: {
+    draft: amber,
+    generating: blue,
+    completed: green,
+    failed: red,
+  },
 };
 
 const variantLabels: Record<string, Record<string, string>> = {
@@ -126,9 +132,23 @@ const variantLabels: Record<string, Record<string, string>> = {
     pro: "Pro",
     enterprise: "Enterprise",
   },
+  sustainability: {
+    draft: "Draft",
+    generating: "Generating",
+    completed: "Completed",
+    failed: "Failed",
+  },
 };
 
-type StatusVariant = "project" | "parse" | "bid" | "violation" | "rfi" | "role" | "plan";
+type StatusVariant =
+  | "project"
+  | "parse"
+  | "bid"
+  | "violation"
+  | "rfi"
+  | "role"
+  | "plan"
+  | "sustainability";
 
 export function StatusBadge({
   status,
