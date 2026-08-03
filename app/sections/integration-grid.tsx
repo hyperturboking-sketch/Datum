@@ -65,13 +65,9 @@ function IntegrationTile({ integration }: { integration: Integration }) {
           <path fill={integration.color} d={integration.siIcon.path} />
         </svg>
       ) : null}
-      {integration.img ? (
-        <span className="sr-only">{integration.name}</span>
-      ) : (
-        <span className="text-[14px] font-medium whitespace-nowrap text-[#0F172A]">
-          {integration.name}
-        </span>
-      )}
+      <span className="text-[14px] font-medium whitespace-nowrap text-[#0F172A]">
+        {integration.name}
+      </span>
     </div>
   );
 }
