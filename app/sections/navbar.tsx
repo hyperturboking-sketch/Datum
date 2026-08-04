@@ -15,15 +15,15 @@ export default function Navbar() {
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${
         scrolled
-          ? "mt-4 mx-auto w-[calc(100%-2rem)] max-w-6xl rounded-full border border-[rgba(255,255,255,0.06)] bg-[rgba(9,9,11,0.8)] backdrop-blur-2xl shadow-[0_8px_32px_rgba(0,0,0,0.4)]"
-          : "border-b border-[rgba(255,255,255,0.04)] bg-transparent"
+          ? "mt-4 mx-auto w-[calc(100%-2rem)] max-w-6xl rounded-full border border-[#E5E7EB]/60 bg-white/80 backdrop-blur-2xl shadow-[0_8px_32px_rgba(0,0,0,0.06)]"
+          : "border-b border-[#F3F4F6] bg-white/90 backdrop-blur-sm"
       }`}
     >
       <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-3.5">
         <a
           href="#top"
-          className="text-[18px] font-normal text-[#F5F5F5]"
-          style={{ fontFamily: "var(--font-brand)" }}
+          className="text-[18px] font-normal text-[#111827]"
+          style={{ fontFamily: "var(--font-heading)" }}
         >
           Datum
         </a>
@@ -38,7 +38,7 @@ export default function Navbar() {
             <a
               key={link.label}
               href={link.href}
-              className="text-[13px] font-light text-[#71717A] transition-colors duration-300 hover:text-[#F5F5F5]"
+              className="text-[13px] font-light text-[#6B7280] transition-colors duration-300 hover:text-[#111827]"
             >
               {link.label}
             </a>
@@ -48,13 +48,13 @@ export default function Navbar() {
         <div className="flex items-center gap-3">
           <a
             href="#"
-            className="hidden text-[13px] font-light text-[#71717A] transition-colors duration-300 hover:text-[#F5F5F5] sm:block"
+            className="hidden text-[13px] font-light text-[#6B7280] transition-colors duration-300 hover:text-[#111827] sm:block"
           >
             Sign In
           </a>
           <a
             href="#"
-            className="rounded-full bg-[#818CF8] px-5 py-2 text-[13px] font-medium text-[#09090B] transition-all duration-500 hover:bg-[#6366F1] active:scale-[0.98]"
+            className="rounded-full bg-[#111827] px-5 py-2 text-[13px] font-medium text-white transition-all duration-500 hover:bg-[#1F2937] hover:shadow-[0_4px_20px_rgba(0,0,0,0.12)] active:scale-[0.98]"
           >
             Get Started
           </a>
