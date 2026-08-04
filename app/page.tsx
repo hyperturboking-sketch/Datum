@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Navbar from "./sections/navbar";
 import Hero from "./sections/hero";
+import ScrollBridge from "./sections/scroll-bridge";
 import WorksWith from "./sections/works-with";
 import AiWorkflow from "./sections/ai-workflow";
 import ProductSection from "./sections/product-section";
@@ -251,6 +252,7 @@ export default function LandingPage() {
       <Navbar />
       <main>
         <Hero />
+        <ScrollBridge />
         <WorksWith />
         <AiWorkflow />
         <div id="product">
